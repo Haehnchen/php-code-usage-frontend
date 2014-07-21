@@ -61,7 +61,7 @@ class JsonImportCommand extends ContainerAwareCommand {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         /** @var SplFileInfo[] $files */
-        $files = $finder->in(dirname($this->getContainer()->get('kernel')->getRootDir()) . '/import/apptitan');
+        $files = $finder->in(dirname($this->getContainer()->get('kernel')->getRootDir()) . '/inspector');
 
         $max = count($files);
 
