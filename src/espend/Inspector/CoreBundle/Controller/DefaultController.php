@@ -10,9 +10,6 @@ class DefaultController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('')
-
-        $payment = $em->find('', $result->getInvId());
 
         return $this->render('espendInspectorCoreBundle:Default:index.html.twig', array('name' => $name));
     }
