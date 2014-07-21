@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Usage for: {{ inspector_class_context.className }}{% endblock %}
+
+{% block content %}
+  {% include 'espendInspectorFrontendBundle:Default/include:class_header.html.twig' only %}
+
+  <div class="row">
+
+    <div class="col-md-3">
+      {% include '@espendInspectorFrontend/Default/include/class_menu.html.twig' %}
+    </div>
+
+    <div class="col-md-9">
+
+      {% if instances|length > 0 %}
+        <h2>Instances</h2>
+        {% for instance in instances %}
+
+          <div class="panel panel-default panel-code-context">
+            <div class="panel-heading">
+              Instance
+              {% include 'espendInspectorFrontendBundle:Default/include:project_link.html.twig' with {'file': instance.file, 'line': instance.line} only %}
+            </div>
+            <div class="panel-body">
+              {% include 'espendInspectorCoreBundle:Default/include:code_context.html.twig' with {'instance': instance} %}
+            </div>
+          </div>
+
+        {% endfor %}
+      {% endif %}
+
+    </div>
+
+  </div>
+{% endblock %}

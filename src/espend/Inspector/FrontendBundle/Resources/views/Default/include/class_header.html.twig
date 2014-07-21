@@ -1,0 +1,7 @@
+<h2>Usage for: <a href="{{ path('espend_inspector_frontend_home', {'q': inspector_class_context.className }) }}">{{ inspector_class_context.className }}</a></h2>
+
+<ul class="list-child-classes">
+  {% for super_class in inspector_class_context.subClasses %}
+    <li><a href="{{ path('espend_inspector_frontend_home', {'q': super_class.class }) }}">{{ super_class.class }}</a></li>
+  {% endfor %}
+</ul>

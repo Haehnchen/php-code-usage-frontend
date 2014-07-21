@@ -1,0 +1,7 @@
+parameters:
+#    espend_inspector_frontend.example.class: espend\Inspector\FrontendBundle\Example
+
+services:
+    espend_inspector_frontend.sitemap_generator:
+        class: espend\Inspector\FrontendBundle\Util\SitemapGenerator
+        arguments: [@doctrine.orm.entity_manager, @router]

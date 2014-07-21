@@ -1,0 +1,24 @@
+espend\Inspector\CoreBundle\Entity\InspectorFile:
+    type: entity
+    table: inspector_files
+    repositoryClass: espend\Inspector\CoreBundle\Entity\InspectorFileRepository
+    uniqueConstraints:
+        file_project_idx:
+            columns: project_id, name
+    indexes:
+        name_idx:
+            columns: name
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+        last_found_at:
+            type: date
+    manyToOne:
+        project:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorProject
+    lifecycleCallbacks: {  }

@@ -1,0 +1,23 @@
+espend\Inspector\CoreBundle\Entity\InspectorSuper:
+    type: entity
+    table: inspector_super
+    repositoryClass: espend\Inspector\CoreBundle\Entity\InspectorSuperRepository
+    indexes:
+        type_idx:
+            columns: super_type
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        super_type:
+            type: string
+        last_found_at:
+            type: date
+    manyToOne:
+        class:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
+        child:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
+    lifecycleCallbacks: {  }

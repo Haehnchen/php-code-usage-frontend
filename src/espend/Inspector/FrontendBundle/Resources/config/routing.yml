@@ -1,0 +1,24 @@
+espend_inspector_frontend_home:
+    pattern:  /
+    defaults: { _controller: espendInspectorFrontendBundle:Default:index }
+
+espend_inspector_frontend_sitemap:
+    pattern:  /sitemap.xml
+    defaults: { _controller: espendInspectorFrontendBundle:Default:sitemap }
+
+espend_inspector_frontend_class:
+    pattern:  /class
+    defaults: { _controller: espendInspectorFrontendBundle:Class:index }
+
+espend_inspector_frontend_method:
+    pattern:  /method
+    defaults: { _controller: espendInspectorFrontendBundle:Method:index }
+
+espend_inspector_frontend_instance:
+    pattern:  /instance
+    defaults: { _controller: espendInspectorFrontendBundle:Instance:index }
+
+espend_inspector_frontend_super:
+    pattern:  /instance
+    defaults: { _controller: espendInspectorFrontendBundle:Super:index }
+

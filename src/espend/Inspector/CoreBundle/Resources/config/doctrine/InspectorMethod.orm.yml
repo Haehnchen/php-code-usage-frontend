@@ -1,0 +1,32 @@
+espend\Inspector\CoreBundle\Entity\InspectorMethod:
+    type: entity
+    table: inspector_methods
+    repositoryClass: espend\Inspector\CoreBundle\Entity\InspectorMethodRepository
+    indexes:
+        method_idx:
+            columns: method
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        context:
+            type: array
+            nullable: true
+        method:
+            type: string
+        line:
+            type: integer
+        last_found_at:
+            type: date
+        key:
+            type: string
+            unique: true
+            column: key_unique
+    manyToOne:
+        class:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
+        file:
+            targetEntity: InspectorFile
+    lifecycleCallbacks: {  }

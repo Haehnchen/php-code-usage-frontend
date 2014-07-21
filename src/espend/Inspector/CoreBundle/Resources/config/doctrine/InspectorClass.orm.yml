@@ -1,0 +1,20 @@
+espend\Inspector\CoreBundle\Entity\InspectorClass:
+    type: entity
+    table: inspector_class
+    uniqueConstraints:
+        class_idx:
+            columns: class
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        class:
+            type: string
+        last_found_at:
+            type: date
+    manyToOne:
+        file:
+            targetEntity: InspectorFile
+    lifecycleCallbacks: {  }

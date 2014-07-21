@@ -1,0 +1,25 @@
+espend\Inspector\CoreBundle\Entity\InspectorProject:
+    type: entity
+    table: inspector_projects
+    indexes:
+        name_idx:
+            columns: name
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            nullable: true
+            unique: true
+        source_url:
+            type: string
+            nullable: true
+        homepage:
+            type: string
+            nullable: true
+        last_found_at:
+            type: date
+    lifecycleCallbacks: {  }

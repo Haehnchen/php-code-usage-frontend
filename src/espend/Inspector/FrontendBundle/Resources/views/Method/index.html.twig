@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Usage for: {{ inspector_class_context.className }}{% endblock %}
+
+{% block content %}
+  {% include 'espendInspectorFrontendBundle:Default/include:class_header.html.twig' only %}
+
+  <div class="row">
+
+    <div class="col-md-3">
+      {% include '@espendInspectorFrontend/Default/include/class_menu.html.twig' %}
+    </div>
+
+    <div class="col-md-9">
+
+      {% if methods|length > 0 %}
+        <h2>Methods</h2>
+        {% for method in methods %}
+
+          <div class="panel panel-default panel-code-context">
+            <div class="panel-heading"><a
+                  href="{{ path('espend_inspector_frontend_home', {'q' : (class.class ~ ':' ~ method.method) }) }}">{{ method.method }}</a> <span class="text-muted">{{ method.file.name }}</span>
+
+              {% include 'espendInspectorFrontendBundle:Default/include:project_link.html.twig' with {'file': method.file, 'line': method.line} only %}
+
+            </div>
+            <div class="panel-body">
+              {% include 'espendInspectorCoreBundle:Default/include:code_context.html.twig' with {'instance': method} %}
+            </div>
+          </div>
+
+        {% endfor %}
+      {% endif %}
+
+      <div class="navigation text-center">
+        {{ knp_pagination_render(methods) }}
+      </div>
+
+    </div>
+
+  </div>
+{% endblock %}

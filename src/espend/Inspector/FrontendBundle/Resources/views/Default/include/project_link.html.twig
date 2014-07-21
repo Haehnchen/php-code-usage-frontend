@@ -1,0 +1,13 @@
+{% if file.project is defined %}
+  <div class="pull-right">
+    {% if file.project.sourceUrl|default %}
+      <a href="{{ file.project.sourceUrl|replace({'%file%': file.name, '%line%': line }) }}">
+        {% if file.project is defined %}
+          <i class="fa fa-github"></i> {{ file.project.name }}
+        {% endif %}
+      </a>
+    {% else %}
+      {{ file.project.name }}
+    {% endif %}
+  </div>
+{% endif %}

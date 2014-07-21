@@ -1,0 +1,34 @@
+<h4>Menu</h4>
+<ul class="nav nav-pills nav-stacked nav-nested">
+
+  {% if inspector_class_context.instanceCount > 0 %}
+    <li>
+      <a href="{{ path('espend_inspector_frontend_home', {'q': 'instance:' ~ class.class}) }}">
+        <span class="badge pull-right">{{ inspector_class_context.instanceCount }}</span>
+        Instances
+      </a>
+    </li>
+  {% endif %}
+
+  {% if inspector_class_context.methodCount > 0 %}
+    <li>
+      <a href="{{ path('espend_inspector_frontend_home', {'q': 'method:' ~ class.class}) }}">
+        <span class="badge pull-right">{{ inspector_class_context.methodCount }}</span>
+        Methods
+      </a>
+
+      <ul class="nav nav-pills nav-stacked">
+        {% for method in inspector_class_context.classMethods %}
+          <li>
+            <a href="{{ path('espend_inspector_frontend_home', {'q': inspector_class_context.className ~ ':' ~ method.method}) }}">
+              {{ method.method }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+
+    </li>
+
+  {% endif %}
+
+</ul>

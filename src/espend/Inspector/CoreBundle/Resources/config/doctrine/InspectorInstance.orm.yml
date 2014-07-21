@@ -1,0 +1,27 @@
+espend\Inspector\CoreBundle\Entity\InspectorInstance:
+    type: entity
+    table: inspector_instances
+    repositoryClass: espend\Inspector\CoreBundle\Entity\InspectorInstanceRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        context:
+            type: array
+            nullable: true
+        line:
+            type: integer
+        key:
+            type: string
+            unique: true
+            column: key_unique
+        last_found_at:
+            type: date
+    manyToOne:
+        class:
+            targetEntity: InspectorClass
+        file:
+            targetEntity: InspectorFile
+    lifecycleCallbacks: {  }
