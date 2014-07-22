@@ -19,7 +19,7 @@
 
           <div class="panel panel-default panel-code-context">
             <div class="panel-heading"><a
-                  href="{{ path('espend_inspector_frontend_home', {'q' : (class.class ~ ':' ~ method.method) }) }}">{{ method.method }}</a> <span class="text-muted">{{ method.file.name }}</span>
+                  href="{{ view_path(class.class ~ ':' ~ method.method) }}">{{ method.method }}</a> <span class="text-muted">{{ method.file.name }}</span>
 
               {% include 'espendInspectorFrontendBundle:Default/include:project_link.html.twig' with {'file': method.file, 'line': method.line} only %}
 

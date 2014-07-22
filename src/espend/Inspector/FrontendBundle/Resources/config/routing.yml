@@ -22,3 +22,8 @@ espend_inspector_frontend_super:
     pattern:  /instance
     defaults: { _controller: espendInspectorFrontendBundle:Super:index }
 
+espend_inspector_frontend_view:
+    pattern:  /v/{view}
+    requirements:
+        view:  .*
+    defaults: { _controller: espendInspectorFrontendBundle:Default:view }

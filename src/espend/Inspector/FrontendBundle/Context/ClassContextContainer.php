@@ -5,6 +5,7 @@ namespace espend\Inspector\FrontendBundle\Context;
 use Doctrine\ORM\EntityManager;
 use espend\Inspector\CoreBundle\Entity\InspectorClass;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Serializer\Exception\RuntimeException;
 
 class ClassContextContainer {
 
@@ -25,11 +26,18 @@ class ClassContextContainer {
 
     public function getClassName() {
 
-        if(!$this->stack->getMasterRequest()->query->has('q')) {
-            return null;
+        $name = null;
+        if($this->stack->getMasterRequest()->query->has('q')) {
+            $name = $this->stack->getMasterRequest()->query->get('q');
         }
 
-        $name = $this->stack->getMasterRequest()->query->get('q');
+        if ($this->stack->getMasterRequest()->attributes->has('view')) {
+            $name = str_replace('/', '\\', $this->stack->getMasterRequest()->attributes->get('view'));
+        }
+
+        if(!$name) {
+            throw new RuntimeException('invalid context');
+        }
 
         if (preg_match('#^(?:method|instance):(.*?)$#i', $name, $result)) {
             return $result[1];

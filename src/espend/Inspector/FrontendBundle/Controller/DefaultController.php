@@ -15,30 +15,17 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
 
-        if($request->query->has("q")) {
-            $name = $request->query->get('q');
-
-            if (preg_match('#^method:(.*?)$#i', $name, $result)) {
-                return $this->forward('espendInspectorFrontendBundle:Method:index', array(), array(
-                    'name' => $result[1],
-                ));
-            } else if (preg_match('#^instance:(.*?)$#i', $name, $result)) {
-                return $this->forward('espendInspectorFrontendBundle:Instance:index', array(), array(
-                    'name' => $result[1],
-                ));
-            } else if (preg_match('#(.*):(.*)#i', $name, $result)) {
-                return $this->forward('espendInspectorFrontendBundle:Method:index', array(), array(
-                    'name' => $name,
-                ));
-            } else {
-                return $this->forward('espendInspectorFrontendBundle:Class:index', array(), array(
-                    'name' => $name,
-                ));
-            }
-
+        if(!$request->query->has("q")) {
+            return $this->createNotFoundException();
         }
 
+        return $this->getMatchResponse($request->query->get('q'));
 
+    }
+
+    public function viewAction($view) {
+        $view = str_replace('/', '\\', $view);
+        return $this->getMatchResponse($view);
     }
 
     public function sitemapAction() {
@@ -46,6 +33,27 @@ class DefaultController extends Controller
         return new Response($content, 200, array(
             'Content-Type' => 'application/xml; charset=utf-8',
         ));
+    }
+
+    private function getMatchResponse($name) {
+        if (preg_match('#^method:(.*?)$#i', $name, $result)) {
+            return $this->forward('espendInspectorFrontendBundle:Method:index', array(), array(
+                'name' => $result[1],
+            ));
+        } else if (preg_match('#^instance:(.*?)$#i', $name, $result)) {
+            return $this->forward('espendInspectorFrontendBundle:Instance:index', array(), array(
+                'name' => $result[1],
+            ));
+        } else if (preg_match('#(.*):(.*)#i', $name, $result)) {
+            return $this->forward('espendInspectorFrontendBundle:Method:index', array(), array(
+                'name' => $name,
+            ));
+        } else {
+            return $this->forward('espendInspectorFrontendBundle:Class:index', array(), array(
+                'name' => $name,
+            ));
+        }
+
     }
 
 }

@@ -3,7 +3,7 @@
 
   {% if inspector_class_context.instanceCount > 0 %}
     <li>
-      <a href="{{ path('espend_inspector_frontend_home', {'q': 'instance:' ~ class.class}) }}">
+      <a href="{{ view_path('instance:' ~ class.class) }}">
         <span class="badge pull-right">{{ inspector_class_context.instanceCount }}</span>
         Instances
       </a>
@@ -12,7 +12,7 @@
 
   {% if inspector_class_context.methodCount > 0 %}
     <li>
-      <a href="{{ path('espend_inspector_frontend_home', {'q': 'method:' ~ class.class}) }}">
+      <a href="{{ view_path('method:' ~ class.class) }}">
         <span class="badge pull-right">{{ inspector_class_context.methodCount }}</span>
         Methods
       </a>
@@ -20,7 +20,7 @@
       <ul class="nav nav-pills nav-stacked">
         {% for method in inspector_class_context.classMethods %}
           <li>
-            <a href="{{ path('espend_inspector_frontend_home', {'q': inspector_class_context.className ~ ':' ~ method.method}) }}">
+            <a href="{{ view_path(inspector_class_context.className ~ ':' ~ method.method) }}">
               {{ method.method }}
             </a>
           </li>

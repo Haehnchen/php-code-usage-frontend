@@ -4,4 +4,10 @@ parameters:
 services:
     espend_inspector_frontend.sitemap_generator:
         class: espend\Inspector\FrontendBundle\Util\SitemapGenerator
-        arguments: [@doctrine.orm.entity_manager, @router]
+        arguments: [@doctrine.orm.entity_manager, @espend_inspector_frontend.twig.twigpath_extension]
+
+    espend_inspector_frontend.twig.twigpath_extension:
+        class: espend\Inspector\FrontendBundle\Twig\TwigPathExtension
+        arguments: [@router]
+        tags:
+           - { name: twig.extension }

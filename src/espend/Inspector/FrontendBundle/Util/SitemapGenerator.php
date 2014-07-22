@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use espend\Inspector\CoreBundle\Entity\InspectorClass;
 use espend\Inspector\CoreBundle\Entity\InspectorMethod;
+use espend\Inspector\FrontendBundle\Twig\TwigPathExtension;
 use Symfony\Component\Routing\RouterInterface;
 
 class SitemapGenerator {
@@ -14,12 +15,8 @@ class SitemapGenerator {
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    /**
-     * @var \Symfony\Component\Routing\RouterInterface
-     */
-    private $router;
 
-    public function __construct(EntityManager $em, RouterInterface $router) {
+    public function __construct(EntityManager $em, TwigPathExtension $router) {
         $this->em = $em;
         $this->router = $router;
     }
@@ -41,7 +38,7 @@ class SitemapGenerator {
 
             /** @var InspectorClass $class */
             $class = $row[0];
-            $content .= sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>1</priority></url>', $this->router->generate('espend_inspector_frontend_home', array('q' => $class->getClass()), true), $class->getLastFoundAt()->format('Y-m-d'));
+            $content .= sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>1</priority></url>', $this->router->getViewPath($class->getClass()), $class->getLastFoundAt()->format('Y-m-d'));
         }
 
 
@@ -56,7 +53,7 @@ class SitemapGenerator {
 
             /** @var InspectorMethod $method */
             $method = $row[0];
-            $content .= sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>', $this->router->generate('espend_inspector_frontend_home', array('q' => $method->getClass()->getClass() . ':' . $method->getMethod()), true), $method->getLastFoundAt()->format('Y-m-d'));
+            $content .= sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>', $this->router->getViewPath($method->getClass()->getClass() . ':' . $method->getMethod()), $method->getLastFoundAt()->format('Y-m-d'));
         }
 
         $content .= '</urlset>';
