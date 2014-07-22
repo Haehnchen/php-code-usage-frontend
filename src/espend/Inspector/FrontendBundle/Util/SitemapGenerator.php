@@ -38,7 +38,7 @@ class SitemapGenerator {
 
             /** @var InspectorClass $class */
             $class = $row[0];
-            $content .= sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>1</priority></url>', $this->router->getViewPath($class->getClass()), $class->getLastFoundAt()->format('Y-m-d'));
+            $content .= sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>1</priority></url>', $this->router->getViewPath($class->getClass(), true), $class->getLastFoundAt()->format('Y-m-d'));
         }
 
 
@@ -53,7 +53,7 @@ class SitemapGenerator {
 
             /** @var InspectorMethod $method */
             $method = $row[0];
-            $content .= sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>', $this->router->getViewPath($method->getClass()->getClass() . ':' . $method->getMethod()), $method->getLastFoundAt()->format('Y-m-d'));
+            $content .= sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>', $this->router->getViewPath($method->getClass()->getClass() . ':' . $method->getMethod(), true), $method->getLastFoundAt()->format('Y-m-d'));
         }
 
         $content .= '</urlset>';
