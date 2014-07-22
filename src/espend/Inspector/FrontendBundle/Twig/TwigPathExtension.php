@@ -24,7 +24,7 @@ class TwigPathExtension extends \Twig_Extension {
     public function getViewPath($parameter, $referenceType = false) {
         return $this->router->generate('espend_inspector_frontend_view', array(
            'view' => str_replace('\\', '/', $parameter),
-        ), array(), $referenceType);
+        ), $referenceType);
     }
 
     public function getName() {
