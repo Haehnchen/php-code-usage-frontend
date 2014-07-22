@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %} - PHP Inspector</title>
+        <title>{% block title %}Find Code Usage!{% endblock %} - code-usage.com</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
@@ -27,8 +27,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../">Bootstrap</a>
+          <a class="navbar-brand" href="{{ path('espend_inspector_frontend_home') }}"><i class="fa fa-code"></i> code-usage<span class="text-muted">.com</span></a>
         </div>
+
+
+        <form class="navbar-form navbar-right pull-right" role="form">
+          <div class="form-group">
+            <input class="form-control" type="text" placeholder="Class / Function">
+          </div>
+          <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+        </form>
+
       </div>
     </header>
 

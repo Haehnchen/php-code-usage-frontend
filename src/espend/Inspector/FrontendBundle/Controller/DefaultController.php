@@ -14,13 +14,7 @@ class DefaultController extends Controller
 
     public function indexAction(Request $request)
     {
-
-        if(!$request->query->has("q")) {
-            return $this->createNotFoundException();
-        }
-
-        return $this->getMatchResponse($request->query->get('q'));
-
+        return $this->render('espendInspectorFrontendBundle:Default:index.html.twig');
     }
 
     public function viewAction($view) {
