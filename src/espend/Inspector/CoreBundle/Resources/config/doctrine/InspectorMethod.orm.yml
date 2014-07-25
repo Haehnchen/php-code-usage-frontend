@@ -28,5 +28,5 @@ espend\Inspector\CoreBundle\Entity\InspectorMethod:
         class:
             targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
         file:
-            targetEntity: InspectorFile
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorFile
     lifecycleCallbacks: {  }

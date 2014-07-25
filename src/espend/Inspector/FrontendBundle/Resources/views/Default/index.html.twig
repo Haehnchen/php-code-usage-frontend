@@ -1,26 +1,68 @@
 {% extends '::base.html.twig' %}
 
+
+{% block custom_stylesheets %}
+  {% stylesheets filter='cssrewrite'
+  'assets/home.css' %}
+  <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+  {% endstylesheets %}
+{% endblock %}
+
 {% block body %}
 
-  <div class="jumbotron">
-    <div class="container">
-      <h1>Under Development!</h1>
+  <div class="container">
 
-      <p>Pls wait...</p>
+    <div class="row padding-bottom30">
+
+      <div class="text-center">
+        <img class="logo" src="{{ asset('assets/images/code-usage-com.png') }}">
+      </div>
+
+      <div class="row">
+
+        <form class="home-search" action="{{ form.vars.action }}" method="post" role="form" {{ form_enctype(form) }}>
+
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+
+          <div class="col-md-3">
+
+          </div>
+
+          <div class="col-md-5">
+            {{ form_widget(form.q, {attr: {
+              'class': 'form-control',
+              'placeholder': 'Class, Method, ...',
+            }}) }}
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary">Search</button>
+          </div>
+
+          {{ form_rest(form) }}
+
+        </form>
+
+      </div>
 
     </div>
-  </div>
 
-  <div class="container">
     <div class="row">
-      <div class="col-md-4">
-        <ul>
-          <li><a href="http://symfony.com/">Symfony2</a></li>
-          <li><a href="http://framework.zend.com/">Zend Framework2</a></li>
-          <li><a href="https://packagist.org/">Packagist</a></li>
-          <li><a href="https://github.com/">GitHub</a></li>
+
+      <div class="col-md-2">
+      </div>
+
+      <div class="col-md-9">
+        <ul class="support-icons">
+          <li><a target="_blank" href="http://php.net" class="logo-php">PHP</a></li>
+          <li><a target="_blank" href="http://symfony.com/" class="logo-symfony2">Symfony2</a></li>
+          <li><a target="_blank" href="http://framework.zend.com/" class="logo-zend2">Zend Framework2</a></li>
+          <li><a target="_blank" href="https://getcomposer.org/" class="logo-composer">Composer</a></li>
+          <li><a target="_blank" href="https://github.com/" class="logo-github">GitHub</a></li>
         </ul>
       </div>
+
     </div>
   </div>
 

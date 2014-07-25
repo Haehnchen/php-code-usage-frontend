@@ -1,0 +1,56 @@
+ul.support-icons li a {
+    display: block;
+    width: 120px;
+    height: 70px;
+    margin: 0 5px;
+    text-indent: -10000px;
+    overflow: hidden;
+    opacity: .03;
+}
+
+ul.support-icons li a:hover {
+    opacity: .09;
+}
+
+ul.support-icons li {
+    display:inline;
+    list-style: none;
+    float: left;
+}
+
+ul.support-icons a {
+    background: url('images/home-sprites.png') no-repeat top left;
+}
+
+ul.support-icons .logo-composer {
+    background-position: 35px 0;
+}
+
+ul.support-icons .logo-github {
+    background-position: 0 -101px;
+}
+
+ul.support-icons .logo-php {
+    background-position: 0 -201px;
+}
+
+ul.support-icons .logo-symfony2 {
+    background-position: 25px -315px;
+}
+
+ul.support-icons .logo-zend2 {
+    background-position: 0 -435px;
+}
+
+form.home-search button {
+    width:120px;
+}
+
+form.home-search {
+    margin-bottom: 90px;
+}
+
+.logo {
+    padding: 150px 0 30px 0;
+    opacity: 0.5;
+}

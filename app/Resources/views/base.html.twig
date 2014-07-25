@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Find Code Usage!{% endblock %} - code-usage.com</title>
-        {% block stylesheets %}{% endblock %}
+
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
       {% stylesheets filter='cssrewrite'
@@ -15,6 +15,7 @@
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
       {% endstylesheets %}
 
+      {% block custom_stylesheets %}{% endblock %}
     </head>
     <body>
 
@@ -31,9 +32,9 @@
         </div>
 
 
-        <form class="navbar-form navbar-right pull-right" role="form">
+        <form class="navbar-form navbar-right pull-right navbar-form-search" role="form" method="post" action="{{ path('espend_inspector_frontend_home_post') }}">
           <div class="form-group">
-            <input class="form-control" type="text" placeholder="Class / Function">
+            <input name="q" class="form-control q-input" type="text" placeholder="Class, Method, ...">
           </div>
           <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
         </form>

@@ -34,6 +34,14 @@ class MethodController extends Controller
             $class_methods = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassMethods($class_ids);
 
             $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->createQueryBuilder('method');
+            $qb->leftJoin('method.class', 'class');
+            $qb->leftJoin('method.file', 'file');
+            $qb->leftJoin('file.project', 'project');
+
+            $qb->addSelect('project');
+            $qb->addSelect('file');
+            $qb->addSelect('class');
+
             $qb->andWhere($qb->expr()->in('method.class', $class_ids));
             $qb->andWhere('method.method = :name');
             $qb->setParameter('name', $result[2]);

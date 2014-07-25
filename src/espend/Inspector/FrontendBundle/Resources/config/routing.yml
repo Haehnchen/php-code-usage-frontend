@@ -1,6 +1,12 @@
 espend_inspector_frontend_home:
     pattern:  /
+    methods: GET
     defaults: { _controller: espendInspectorFrontendBundle:Default:index }
+
+espend_inspector_frontend_home_post:
+    pattern:  /
+    methods: POST
+    defaults: { _controller: espendInspectorFrontendBundle:Default:indexPost }
 
 espend_inspector_frontend_sitemap:
     pattern:  /sitemap.xml

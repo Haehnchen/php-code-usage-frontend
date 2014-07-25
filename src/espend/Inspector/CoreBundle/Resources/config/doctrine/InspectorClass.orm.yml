@@ -1,6 +1,7 @@
 espend\Inspector\CoreBundle\Entity\InspectorClass:
     type: entity
     table: inspector_class
+    repositoryClass: InspectorClassRepository
     uniqueConstraints:
         class_idx:
             columns: class
@@ -16,5 +17,5 @@ espend\Inspector\CoreBundle\Entity\InspectorClass:
             type: date
     manyToOne:
         file:
-            targetEntity: InspectorFile
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorFile
     lifecycleCallbacks: {  }

@@ -7,6 +7,13 @@ body, html {
     height: 100%;
 }
 
+footer {
+    position: fixed;
+    left:20px;
+    bottom: 0;
+    opacity: 0.1;
+}
+
 .well-white {
     background-color: #FFFFFF;
     border: 1px solid #EEEEEE;
@@ -93,4 +100,21 @@ footer {
     font-size: 12px;
     opacity: 0.7;
     margin:15px 0;
+}
+
+.navbar-form-search .q-input {
+    width: 180px;
+
+    -webkit-transition: width 0.3s ease-in-out;
+    -moz-transition: width 0.3s ease-in-out;
+    -o-transition: width 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out;
+}
+
+.navbar-form-search .q-input:focus {
+    width: 390px;
+}
+
+.search .r h3 {
+    font-size:13px;
 }
