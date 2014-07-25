@@ -14,7 +14,7 @@
     <div class="col-md-9">
 
       {% if instances|length > 0 %}
-        <h2><a href="{{ path('espend_inspector_frontend_view', {'view': 'instance:' ~ inspector_class_context.className}) }}">Instances</a></h2>
+        <h2><a href="{{ view_path('instance:' ~ inspector_class_context.className) }}">Instances</a></h2>
         {% for instance in instances %}
 
           <div class="panel panel-default panel-code-context">
@@ -31,12 +31,12 @@
       {% endif %}
 
       {% if methods|length > 0 %}
-        <h2><a href="{{ path('espend_inspector_frontend_view', {'view': 'method:' ~ inspector_class_context.className}) }}">Method</a></h2>
+        <h2><a href="{{ view_path('method:' ~ inspector_class_context.className) }}">Methods</a></h2>
         {% for method in methods %}
 
           <div class="panel panel-default panel-code-context">
             <div class="panel-heading">
-              <a href="{{ path('espend_inspector_frontend_view', {'view' : (class.class ~ ':' ~ method.method) }) }}">{{ method.method }}</a>
+              <a href="{{ view_path(class.class ~ ':' ~ method.method) }}">{{ method.method }}</a>
               <span class="text-muted">{{ class.class }}</span>
               {% include 'espendInspectorFrontendBundle:Default/include:project_link.html.twig' with {'file': method.file, 'line': method.line} only %}
             </div>

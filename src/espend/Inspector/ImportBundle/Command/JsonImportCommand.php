@@ -90,11 +90,11 @@ class JsonImportCommand extends ContainerAwareCommand {
                 }
 
                 if ($json['type'] == 'instance') {
-                    $this->visitInstance($json, $em, $fileEntity);
+                    $this->visitInstance($json, $fileEntity);
                 }
 
                 if ($json['type'] == 'extends' || $json['type'] == 'implements') {
-                    $this->visitSuper($json, $em);
+                    $this->visitSuper($json);
                 }
 
                 if ($json['type'] == 'method') {
@@ -206,15 +206,16 @@ class JsonImportCommand extends ContainerAwareCommand {
 
         $class = $this->getClass($json['class']);
 
+        $key = $file->getProject()->getId() . '-' . $json['key'];
         $method = $this->getContainer()->get('doctrine')->getRepository('espendInspectorCoreBundle:InspectorMethod')->findOneBy(array(
-            'key' => $json['key'],
+            'key' => $key,
         ));
 
         if (!$method) {
             $method = new InspectorMethod();
             $method->setClass($class);
             $method->setMethod($json['name']);
-            $method->setKey($json['key']);
+            $method->setKey($key);
             $method->setFile($file);
 
             $method->setContext($json['context']['context']);
@@ -261,19 +262,20 @@ class JsonImportCommand extends ContainerAwareCommand {
      * @param $fileEntity
      * @return InspectorClass
      */
-    protected function visitInstance($json, $em, $fileEntity) {
+    protected function visitInstance($json, InspectorFile $fileEntity) {
         $class = $this->getClass($json['class']);
 
+        $key = $fileEntity->getId() . '-' . $json['key'];
         $instance = $this->em->getRepository('espendInspectorCoreBundle:InspectorInstance')->findOneBy(array(
             'class' => $class->getId(),
-            'key' => $json['key'],
+            'key' => $key,
         ));
 
         if ($instance == null) {
             $instance = new InspectorInstance();
             $instance->setClass($class);
             $instance->setFile($fileEntity);
-            $instance->setKey($json['key']);
+            $instance->setKey($key);
         }
 
         $instance->setContext($json['context']['context']);
