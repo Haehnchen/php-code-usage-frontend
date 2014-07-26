@@ -81,4 +81,32 @@ class InspectorClass
         return $this->last_found_at;
     }
 
+    /**
+     * @var \espend\Inspector\CoreBundle\Entity\InspectorProject
+     */
+    private $project;
+
+
+    /**
+     * Set project
+     *
+     * @param \espend\Inspector\CoreBundle\Entity\InspectorProject $project
+     * @return InspectorClass
+     */
+    public function setProject(\espend\Inspector\CoreBundle\Entity\InspectorProject $project = null)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \espend\Inspector\CoreBundle\Entity\InspectorProject 
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
 }
