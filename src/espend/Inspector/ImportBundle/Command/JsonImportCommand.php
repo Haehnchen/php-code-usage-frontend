@@ -267,7 +267,6 @@ class JsonImportCommand extends ContainerAwareCommand {
 
         $key = $fileEntity->getId() . '-' . $json['key'];
         $instance = $this->em->getRepository('espendInspectorCoreBundle:InspectorInstance')->findOneBy(array(
-            'class' => $class->getId(),
             'key' => $key,
         ));
 
