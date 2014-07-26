@@ -80,32 +80,5 @@ class InspectorClass
     {
         return $this->last_found_at;
     }
-    /**
-     * @var \espend\Inspector\CoreBundle\Entity\InspectorFile
-     */
-    private $file;
 
-
-    /**
-     * Set file
-     *
-     * @param \espend\Inspector\CoreBundle\Entity\InspectorFile $file
-     * @return InspectorClass
-     */
-    public function setFile(\espend\Inspector\CoreBundle\Entity\InspectorFile $file = null)
-    {
-        $this->file = $file;
-
-        return $this;
-    }
-
-    /**
-     * Get file
-     *
-     * @return \espend\Inspector\CoreBundle\Entity\InspectorFile 
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
 }

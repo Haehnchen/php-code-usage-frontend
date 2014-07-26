@@ -164,4 +164,60 @@ class InspectorProject
     {
         return $this->source_url;
     }
+    /**
+     * @var string
+     */
+    private $version;
+
+    /**
+     * @var string
+     */
+    private $source_reference;
+
+
+    /**
+     * Set version
+     *
+     * @param string $version
+     * @return InspectorProject
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * Get version
+     *
+     * @return string 
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Set source_reference
+     *
+     * @param string $sourceReference
+     * @return InspectorProject
+     */
+    public function setSourceReference($sourceReference)
+    {
+        $this->source_reference = $sourceReference;
+
+        return $this;
+    }
+
+    /**
+     * Get source_reference
+     *
+     * @return string 
+     */
+    public function getSourceReference()
+    {
+        return $this->source_reference;
+    }
 }

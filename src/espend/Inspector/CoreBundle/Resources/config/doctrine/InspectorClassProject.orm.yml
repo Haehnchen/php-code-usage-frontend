@@ -1,0 +1,17 @@
+espend\Inspector\CoreBundle\Entity\InspectorClassProject:
+    type: entity
+    table: inspector_class_project
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        last_found_at:
+            type: date
+    manyToOne:
+        project:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorProject
+        class:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
+    lifecycleCallbacks: {  }

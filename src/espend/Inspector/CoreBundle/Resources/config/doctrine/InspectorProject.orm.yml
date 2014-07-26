@@ -20,6 +20,12 @@ espend\Inspector\CoreBundle\Entity\InspectorProject:
         homepage:
             type: string
             nullable: true
+        version:
+            type: string
+            nullable: true
+        source_reference:
+            type: string
+            nullable: true
         last_found_at:
             type: date
     lifecycleCallbacks: {  }
