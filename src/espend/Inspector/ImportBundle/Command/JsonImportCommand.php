@@ -74,13 +74,16 @@ class JsonImportCommand extends ContainerAwareCommand {
 
             $output->writeln(sprintf('%s/%s', $i++, $max));
 
+            
+
             $contents = json_decode($file->getContents(), true);
-            $project = $this->getProject($contents['name']);
-            if(!isset($contents['file'])) {
+
+            if(!isset($contents['file']) || !isset($contents['name'])) {
                 $output->writeln('skipping ' . $file->getFilename());
                 continue;
             }
 
+            $project = $this->getProject($contents['name']);
             $fileEntity = $this->getFile($contents['file'], $project);
 
             foreach ($contents['items'] as $json) {
