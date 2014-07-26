@@ -20,4 +20,6 @@ espend\Inspector\CoreBundle\Entity\InspectorClass:
     manyToOne:
         project:
             targetEntity: espend\Inspector\CoreBundle\Entity\InspectorProject
+        file:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorFile
     lifecycleCallbacks: {  }

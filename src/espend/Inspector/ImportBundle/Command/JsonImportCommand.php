@@ -138,17 +138,17 @@ class JsonImportCommand extends ContainerAwareCommand {
 
     }
 
-    private function getClass($className, InspectorProject $project = null, $json = array()) {
+    private function getClass($className, InspectorFile $file = null, $json = array()) {
 
         if (isset($this->classCache[$className])) {
 
-            if($project != null) {
+            if($file != null) {
                 /** @var InspectorClass $class */
                 $class = $this->classCache[$className];
-                if ($class->getProject() != null && $class->getProject()->getId() != $project->getId()) {
-                    $this->attachAndFlushProject($project, $class, $json);
+                if ($class->getProject() != null && $file->getProject() && $class->getProject()->getId() != $file->getProject()->getId()) {
+                    $this->attachAndFlushProject($file, $class, $json);
                 } elseif ($class->getProject() == null) {
-                    $this->attachAndFlushProject($project, $class, $json);
+                    $this->attachAndFlushProject($file, $class, $json);
                 }
             }
 
@@ -165,7 +165,10 @@ class JsonImportCommand extends ContainerAwareCommand {
             $class->setLastFoundAt(new \DateTime());
         }
 
-        $class->setProject($project);
+        if($file != null) {
+            $class->setProject($file->getProject());
+        }
+
         $class->setLastFoundAt(new \DateTime());
 
         $this->getContainer()->get('doctrine')->getManager()->persist($class);
@@ -222,9 +225,7 @@ class JsonImportCommand extends ContainerAwareCommand {
     }
 
     private function visitClass(array $json, InspectorFile $file) {
-        if($file->getProject()) {
-            $this->getClass($json['class'], $file->getProject(), $json);
-        }
+        $this->getClass($json['class'], $file, $json);
     }
 
     private function visitMethod(array $json, InspectorFile $file) {
@@ -335,8 +336,13 @@ class JsonImportCommand extends ContainerAwareCommand {
 
     }
 
-    private function attachAndFlushProject(InspectorProject $project, InspectorClass $class, array $json) {
-        $class->setProject($project);
+    private function attachAndFlushProject(InspectorFile $file, InspectorClass $class, array $json) {
+
+        $class->setFile($file);
+
+        if($file->getProject() != null) {
+            $class->setProject($file->getProject());
+        }
 
         if(isset($json['doc_comment'])) {
             $result = preg_replace('%(\r?\n(?! \* ?@))?^(/\*\*\r?\n \* | \*/| \* ?)%m', ' ', $json['doc_comment']);
