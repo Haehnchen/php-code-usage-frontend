@@ -6,14 +6,21 @@
         <div class="r">
           <h3><a href="{{ view_path(result.class) }}">{{ result.class }}</a></h3>
 
-          <p>
+          <div class="r-t">
 
-            {{ result.lastFoundAt|date('Y-m-d') }}
+            <div class="r-f">
+              {{ result.lastFoundAt|date('Y-m-d') }}
+              {% if result.file %}
+                 - {{ result.file.name }}
+              {% endif %}
+            </div>
+
+
             {% if result.docComment|length > 0 %}
               {{ result.docComment|truncate(100) }}
             {% endif %}
 
-          </p>
+          </div>
 
           {% if result.project %}
             <ul>

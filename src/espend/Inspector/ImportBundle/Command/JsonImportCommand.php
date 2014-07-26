@@ -145,11 +145,7 @@ class JsonImportCommand extends ContainerAwareCommand {
             if($file != null) {
                 /** @var InspectorClass $class */
                 $class = $this->classCache[$className];
-                if ($class->getProject() != null && $file->getProject() && $class->getProject()->getId() != $file->getProject()->getId()) {
-                    $this->attachAndFlushProject($file, $class, $json);
-                } elseif ($class->getProject() == null) {
-                    $this->attachAndFlushProject($file, $class, $json);
-                }
+                $this->attachAndFlushProject($file, $class, $json);
             }
 
             return $this->classCache[$className];
