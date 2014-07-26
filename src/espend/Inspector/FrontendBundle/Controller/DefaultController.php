@@ -43,6 +43,9 @@ class DefaultController extends Controller {
         $qb->setParameter('query', '%' . $form->get('q')->getData() . '%');
         $qb->setMaxResults(30);
 
+        $qb->leftJoin('class.project', 'project');
+        $qb->addSelect('project');
+
         /** @var InspectorClass[] $result */
         $result = $qb->getQuery()->getResult();
 

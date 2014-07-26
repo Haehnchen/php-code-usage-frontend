@@ -13,6 +13,8 @@ espend\Inspector\CoreBundle\Entity\InspectorClass:
                 strategy: AUTO
         class:
             type: string
+        doc_comment:
+            type: string
         last_found_at:
             type: date
     manyToOne:

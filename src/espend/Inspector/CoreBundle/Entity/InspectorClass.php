@@ -109,4 +109,32 @@ class InspectorClass
     {
         return $this->project;
     }
+    /**
+     * @var string
+     */
+    private $doc_comment;
+
+
+    /**
+     * Set doc_comment
+     *
+     * @param string $docComment
+     * @return InspectorClass
+     */
+    public function setDocComment($docComment)
+    {
+        $this->doc_comment = $docComment;
+
+        return $this;
+    }
+
+    /**
+     * Get doc_comment
+     *
+     * @return string 
+     */
+    public function getDocComment()
+    {
+        return $this->doc_comment;
+    }
 }

@@ -116,5 +116,33 @@ footer {
 }
 
 .search .r h3 {
-    font-size:13px;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+.r {
+    padding-bottom: 10px;
+}
+
+.r p {
+    margin:0;
+}
+
+.r {
+    padding-bottom: 10px;
+}
+
+.r ul {
+    padding:0;
+    margin:0;
+}
+
+.r li {
+    display:inline;
+    list-style: none;
+    color: #aeaeae;
+}
+
+.r p {
+    font-size: 12px;
 }

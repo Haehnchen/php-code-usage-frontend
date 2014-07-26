@@ -138,7 +138,7 @@ class JsonImportCommand extends ContainerAwareCommand {
 
     }
 
-    private function getClass($className, InspectorProject $project = null) {
+    private function getClass($className, InspectorProject $project = null, $json = array()) {
 
         if (isset($this->classCache[$className])) {
 
@@ -146,9 +146,9 @@ class JsonImportCommand extends ContainerAwareCommand {
                 /** @var InspectorClass $class */
                 $class = $this->classCache[$className];
                 if ($class->getProject() != null && $class->getProject()->getId() != $project->getId()) {
-                    $this->attachAndFlushProject($project, $class);
+                    $this->attachAndFlushProject($project, $class, $json);
                 } elseif ($class->getProject() == null) {
-                    $this->attachAndFlushProject($project, $class);
+                    $this->attachAndFlushProject($project, $class, $json);
                 }
             }
 
@@ -223,7 +223,7 @@ class JsonImportCommand extends ContainerAwareCommand {
 
     private function visitClass(array $json, InspectorFile $file) {
         if($file->getProject()) {
-            $this->getClass($json['class'], $file->getProject());
+            $this->getClass($json['class'], $file->getProject(), $json);
         }
     }
 
@@ -335,8 +335,14 @@ class JsonImportCommand extends ContainerAwareCommand {
 
     }
 
-    private function attachAndFlushProject(InspectorProject $project, InspectorClass $class) {
+    private function attachAndFlushProject(InspectorProject $project, InspectorClass $class, array $json) {
         $class->setProject($project);
+
+        if(isset($json['doc_comment'])) {
+            $result = preg_replace('%(\r?\n(?! \* ?@))?^(/\*\*\r?\n \* | \*/| \* ?)%m', ' ', $json['doc_comment']);
+            $class->setDocComment($result);
+        }
+
         $this->getContainer()->get('doctrine')->getManager()->persist($class);
         $this->getContainer()->get('doctrine')->getManager()->flush($class);
     }
