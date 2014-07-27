@@ -2,6 +2,9 @@ espend\Inspector\CoreBundle\Entity\InspectorInstance:
     type: entity
     table: inspector_instances
     repositoryClass: espend\Inspector\CoreBundle\Entity\InspectorInstanceRepository
+    indexes:
+        key_idx:
+            columns: key_unique
     fields:
         id:
             type: integer
@@ -15,7 +18,7 @@ espend\Inspector\CoreBundle\Entity\InspectorInstance:
             type: integer
         key:
             type: string
-            unique: true
+            #unique: true
             column: key_unique
         last_found_at:
             type: date
