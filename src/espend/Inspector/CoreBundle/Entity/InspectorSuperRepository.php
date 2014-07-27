@@ -2,6 +2,7 @@
 
 namespace espend\Inspector\CoreBundle\Entity;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -24,15 +25,15 @@ class InspectorSuperRepository extends EntityRepository
 
     public function getSubClassesIds($class_id) {
 
-        /** @var InspectorSuper[] $supers */
-        $supers = $this->findBy(array(
-            'child' => $class_id,
-        ));
-
         $class_ids = array($class_id);
-        foreach ($supers as $super) {
-            $class_ids[] = $super->getClass()->getId();
-        }
+
+        /** @var Connection $conn */
+        $conn = $this->_em->getConnection();
+        $stmt = $conn->executeQuery('SELECT @pv := class_id AS class_id, child_id FROM inspector_super JOIN (SELECT @pv :=:id) tmp WHERE child_id = @pv', array('id' => $class_id));
+
+        foreach($stmt->fetchAll() as $item) {
+            $class_ids[] = intval($item['class_id']);
+        };
 
         return array_unique($class_ids);
     }
