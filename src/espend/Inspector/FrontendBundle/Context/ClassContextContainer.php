@@ -19,6 +19,8 @@ class ClassContextContainer {
      */
     private $em;
 
+    private $cache = array();
+
     public function __construct(RequestStack $stack, EntityManager $em) {
         $this->stack = $stack;
         $this->em = $em;
@@ -50,7 +52,7 @@ class ClassContextContainer {
     }
 
     public function getClass() {
-        return $this->em->getRepository('espendInspectorCoreBundle:InspectorClass')->findOneBy(array(
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorClass')->findOneBy(array(
            'class' => $this->getClassName(),
         ));
     }
@@ -59,31 +61,38 @@ class ClassContextContainer {
      * @return InspectorClass[]
      */
     public function getSubClasses() {
-        $inspectorSupers = $this->em->getRepository('espendInspectorCoreBundle:InspectorSuper')->findBy(array(
-            'child' => $this->getClass()->getId(),
-        ));
 
+        $qb = $this->em->getRepository('espendInspectorCoreBundle:InspectorSuper')->createQueryBuilder('supers');
+        $qb->join('supers.class', 'parentClass');
+        $qb->addSelect('parentClass');
+        $qb->andWhere('supers.child = :child');
+        $qb->setParameter('child', $this->getClass()->getId());
+
+        /** @var InspectorClass[] $inspectorSupers */
+        $inspectorSupers = $qb->getQuery()->getResult();
+
+        // @TODO: remove; foreign
         $child = array();
         foreach($inspectorSupers as $super) {
             $child[] = $super->getClass();
         }
 
-        return $child;
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $child;
     }
 
     function getSubClassesId() {
-        return $this->em->getRepository('espendInspectorCoreBundle:InspectorSuper')->getSubClassesIds($this->getClass()->getId());
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorSuper')->getSubClassesIds($this->getClass()->getId());
     }
 
     function getClassMethods() {
-        return $this->em->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassMethods($this->getSubClassesId());
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassMethods($this->getSubClassesId());
     }
 
     function getInstanceCount() {
-        return $this->em->getRepository('espendInspectorCoreBundle:InspectorInstance')->getClassCount($this->getSubClassesId());
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorInstance')->getClassCount($this->getSubClassesId());
     }
 
     function getMethodCount() {
-        return $this->em->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassCount($this->getSubClassesId());
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassCount($this->getSubClassesId());
     }
 } 
