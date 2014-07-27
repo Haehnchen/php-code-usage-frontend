@@ -1,5 +1,11 @@
 <h2>Usage for: <a href="{{ view_path(inspector_class_context.className) }}">{{ inspector_class_context.className }}</a></h2>
 
+{% if inspector_class_context.class.docComment|length > 0 %}
+  <p class="text-muted" style="font-size: 12px">
+    {{ inspector_class_context.class.docComment|nl2br }}
+  </p>
+{% endif %}
+
 <ul class="list-child-classes">
   {% for super_class in inspector_class_context.subClasses %}
     <li><a href="{{ view_path(super_class.class) }}">{{ super_class.class }}</a></li>
