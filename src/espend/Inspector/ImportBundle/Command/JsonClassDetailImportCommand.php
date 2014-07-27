@@ -70,11 +70,12 @@ class JsonClassDetailImportCommand extends ContainerAwareCommand {
             'project_id' => $file->getProject()->getId(),
             'file_id' => $file->getId(),
             'class' => $className,
+            'doc_comment' => null,
         );
 
         if (isset($json['doc_comment'])) {
-            $result = preg_replace('%(\r?\n(?! \* ?@))?^(/\*\*\r?\n \* | \*/| \* ?)%m', ' ', $json['doc_comment']);
-            //$item['doc_comment'] = $result;
+            $result = trim(preg_replace('%(\r?\n(?! \* ?@))?^(/\*\*\r?\n \* | \*/| \* ?)%m', ' ', $json['doc_comment']));
+            $item['doc_comment'] = strlen($result) > 0 ? $result : null;;
         }
 
         $this->getContainer()->get('espend_inspector_core.dbal_query')->executePdoUpsert('inspector_class', $item);

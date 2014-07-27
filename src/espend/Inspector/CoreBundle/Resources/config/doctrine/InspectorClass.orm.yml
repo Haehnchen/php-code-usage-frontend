@@ -15,6 +15,7 @@ espend\Inspector\CoreBundle\Entity\InspectorClass:
             type: string
         doc_comment:
             type: string
+            nullable: true
         last_found_at:
             type: date
     manyToOne:
