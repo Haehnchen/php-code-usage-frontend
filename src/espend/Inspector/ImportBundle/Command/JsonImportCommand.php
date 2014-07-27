@@ -74,8 +74,6 @@ class JsonImportCommand extends ContainerAwareCommand {
 
             $output->writeln(sprintf('%s/%s', $i++, $max));
 
-
-
             $contents = json_decode($file->getContents(), true);
 
             if(!isset($contents['file']) || !isset($contents['name'])) {
@@ -108,9 +106,9 @@ class JsonImportCommand extends ContainerAwareCommand {
                     $this->visitMethod($json, $fileEntity);
                 }
 
-                $em->flush();
-
             }
+
+            $em->flush();
 
             $progress->advance();
 
@@ -123,7 +121,7 @@ class JsonImportCommand extends ContainerAwareCommand {
 
                 $before = $unitOfWork->size();
 
-                $em->clear('espend\Inspector\CoreBundle\Entity\InspectorFile');
+                //$em->clear('espend\Inspector\CoreBundle\Entity\InspectorFile');
                 $em->clear('espend\Inspector\CoreBundle\Entity\InspectorSuper');
                 $em->clear('espend\Inspector\CoreBundle\Entity\InspectorMethod');
                 $em->clear('espend\Inspector\CoreBundle\Entity\InspectorMethodChild');
@@ -138,16 +136,9 @@ class JsonImportCommand extends ContainerAwareCommand {
 
     }
 
-    private function getClass($className, InspectorFile $file = null, $json = array()) {
+    private function getClass($className) {
 
         if (isset($this->classCache[$className])) {
-
-            if($file != null) {
-                /** @var InspectorClass $class */
-                $class = $this->classCache[$className];
-                $this->attachAndFlushProject($file, $class, $json);
-            }
-
             return $this->classCache[$className];
         }
 
@@ -159,10 +150,6 @@ class JsonImportCommand extends ContainerAwareCommand {
             $class = new InspectorClass();
             $class->setClass($className);
             $class->setLastFoundAt(new \DateTime());
-        }
-
-        if($file != null) {
-            $class->setProject($file->getProject());
         }
 
         $class->setLastFoundAt(new \DateTime());
@@ -220,8 +207,8 @@ class JsonImportCommand extends ContainerAwareCommand {
         return $file;
     }
 
-    private function visitClass(array $json, InspectorFile $file) {
-        $this->getClass($json['class'], $file, $json);
+    private function visitClass(array $json) {
+        $this->getClass($json['class']);
     }
 
     private function visitMethod(array $json, InspectorFile $file) {
@@ -330,23 +317,6 @@ class JsonImportCommand extends ContainerAwareCommand {
         $instanceSuper->setLastFoundAt(new \DateTime());
         $this->em->persist($instanceSuper);
 
-    }
-
-    private function attachAndFlushProject(InspectorFile $file, InspectorClass $class, array $json) {
-
-        $class->setFile($file);
-
-        if($file->getProject() != null) {
-            $class->setProject($file->getProject());
-        }
-
-        if(isset($json['doc_comment'])) {
-            $result = preg_replace('%(\r?\n(?! \* ?@))?^(/\*\*\r?\n \* | \*/| \* ?)%m', ' ', $json['doc_comment']);
-            $class->setDocComment($result);
-        }
-
-        $this->getContainer()->get('doctrine')->getManager()->persist($class);
-        $this->getContainer()->get('doctrine')->getManager()->flush($class);
     }
 
 }
