@@ -14,11 +14,15 @@
 
     <div class="row padding-bottom30">
 
-      <div class="text-center">
-        <img class="logo" src="{{ asset('assets/images/code-usage-com.png') }}">
+      <div class="text-center logo">
+        <a href="{{ path('espend_inspector_frontend_home') }}"><img src="{{ asset('assets/images/code-usage-com.png') }}"></a>
       </div>
 
       <div class="row">
+
+        {% if error %}
+          <div class="text-center padding-bottom5"><strong>{{ error }}</strong></div>
+        {% endif %}
 
         <form class="home-search" action="{{ form.vars.action }}" method="post" role="form" {{ form_enctype(form) }}>
 

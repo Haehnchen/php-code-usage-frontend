@@ -39,8 +39,28 @@ class DefaultController extends Controller {
 
 
         $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorClass')->createQueryBuilder('class');
-        $qb->andWhere($qb->expr()->like('class.class', ':query'));
-        $qb->setParameter('query', '%' . $form->get('q')->getData() . '%');
+        $data = $form->get('q')->getData();
+
+        $data = explode(' ', preg_replace('#\s+#', ' ', $data));
+
+        $expr = $qb->expr()->andX();
+        foreach($data as $q) {
+            if(strlen($q) > 2) {
+                $expr->add($qb->expr()->like('class.class', $qb->expr()->literal('%' . $q . '%')));
+            }
+        }
+
+        if($expr->count() == 0) {
+            return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
+              'error' => 'oops, invalid search...',
+              'form' => $form->createView(),
+            ));
+        }
+
+        $qb->andWhere($expr);
+
+        $qbCount = clone $qb;
+
         $qb->setMaxResults(30);
 
         $qb->leftJoin('class.project', 'project');
@@ -52,6 +72,7 @@ class DefaultController extends Controller {
         return $this->render('espendInspectorFrontendBundle:Default:indexPost.html.twig', array(
           'search_name' => $form->get('q')->getData(),
           'results' => $result,
+          'result_count' => $qbCount->select('count(class.id)')->getQuery()->getSingleScalarResult(),
         ));
 
     }
