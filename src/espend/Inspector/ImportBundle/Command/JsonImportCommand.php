@@ -6,6 +6,7 @@ namespace espend\Inspector\ImportBundle\Command;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\UnitOfWork;
 use espend\Inspector\CoreBundle\Entity\InspectorClass;
+use espend\Inspector\CoreBundle\Entity\InspectorDynamic;
 use espend\Inspector\CoreBundle\Entity\InspectorFile;
 use espend\Inspector\CoreBundle\Entity\InspectorInstance;
 use espend\Inspector\CoreBundle\Entity\InspectorMethod;
@@ -104,6 +105,10 @@ class JsonImportCommand extends ContainerAwareCommand {
 
                 if ($json['type'] == 'method') {
                     $this->visitMethod($json, $fileEntity);
+                }
+
+                if (in_array($json['type'], ['use', 'annotation', 'type_hint', 'doc_type'])) {
+                    $this->visitDynamic($json, $fileEntity);
                 }
 
             }
@@ -316,6 +321,30 @@ class JsonImportCommand extends ContainerAwareCommand {
 
         $instanceSuper->setLastFoundAt(new \DateTime());
         $this->em->persist($instanceSuper);
+
+    }
+
+    protected function visitDynamic($json, InspectorFile $fileEntity) {
+        $class = $this->getClass($json['class']);
+
+        $key = $fileEntity->getId() . '-' . $json['key'];
+        $instance = $this->em->getRepository('espendInspectorCoreBundle:InspectorDynamic')->findOneBy(array(
+            'key' => $key,
+        ));
+
+        if ($instance == null) {
+            $instance = new InspectorDynamic();
+            $instance->setClass($class);
+            $instance->setKey($key);
+        }
+
+        $instance->setContext($json['context']['context']);
+        $instance->setLine($json['context']['line']);
+        $instance->setType($json['type']);
+
+        $instance->setLastFoundAt(new \DateTime());
+
+        $this->em->persist($instance);
 
     }
 

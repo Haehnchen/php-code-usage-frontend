@@ -1,0 +1,31 @@
+espend\Inspector\CoreBundle\Entity\InspectorDynamic:
+    type: entity
+    table: inspector_dynamic
+    repositoryClass: espend\Inspector\CoreBundle\Entity\InspectorDynamicRepository
+    indexes:
+        type_idx:
+            columns: type
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        context:
+            type: array
+            nullable: true
+        line:
+            type: integer
+        key:
+            type: string
+            #unique: true
+            column: key_unique
+        type:
+            type: string
+            length: 10
+        last_found_at:
+            type: date
+    manyToOne:
+        class:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
+    lifecycleCallbacks: {  }
