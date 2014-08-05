@@ -100,6 +100,12 @@ class DefaultController extends Controller {
               'name' => $result[1],
               'page' => $request->query->get('page', 1),
             ));
+        } else if (preg_match('#^(hint|annotation|doc|use):(.*?)$#i', $name, $result)) {
+            return $this->forward('espendInspectorFrontendBundle:Dynamic:index', array(), array(
+                'name' => $result[2],
+                'type' => $result[1],
+                'page' => $request->query->get('page', 1),
+            ));
         } else if (preg_match('#(.*):(.*)#i', $name, $result)) {
             return $this->forward('espendInspectorFrontendBundle:Method:index', array(), array(
               'name' => $name,

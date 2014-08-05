@@ -41,7 +41,7 @@ class ClassContextContainer {
             throw new RuntimeException('invalid context');
         }
 
-        if (preg_match('#^(?:method|instance):(.*?)$#i', $name, $result)) {
+        if (preg_match('#^(?:method|instance|hint|annotation|doc|use):(.*?)$#i', $name, $result)) {
             return $result[1];
         } else if (preg_match('#(.*):(.*)#i', $name, $result)) {
             return $result[1];
