@@ -21,7 +21,7 @@
           <div class="panel panel-default panel-code-context">
 
             <div class="panel-heading">
-              {{ dynamic.class.file.name }}
+              <span class="text-muted">{{ dynamic.class.class }}</span>
 
               {% include 'espendInspectorFrontendBundle:Default/include:project_link.html.twig' with {'file': dynamic.class.file, 'line': dynamic.line} only %}
 
