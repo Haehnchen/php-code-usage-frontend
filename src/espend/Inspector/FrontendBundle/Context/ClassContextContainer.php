@@ -89,10 +89,14 @@ class ClassContextContainer {
     }
 
     function getInstanceCount() {
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorInstance')->getClassCount($this->getSubClassesId());
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorInstance')->getClassCount($this->getClass()->getId());
     }
 
     function getMethodCount() {
         return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassCount($this->getSubClassesId());
+    }
+
+    function getDynamicCount() {
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorDynamic')->getClassCounts($this->getClass()->getId());
     }
 } 

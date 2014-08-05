@@ -76,9 +76,6 @@ class MethodController extends Controller
         return array(
             'class' => $inspectorClass,
             'methods' => $methods,
-            'instance_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorInstance')->getClassCount($inspectorClass->getId()),
-            'method_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassCount($inspectorClass->getId()),
-            'dynamic_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorDynamic')->getClassCounts($inspectorClass->getId()),
         );
 
     }

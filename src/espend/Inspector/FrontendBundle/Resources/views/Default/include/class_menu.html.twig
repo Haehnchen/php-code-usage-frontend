@@ -10,27 +10,27 @@
     </li>
   {% endif %}
 
-  {% if dynamic_count.type_hint|default(0) > 0 %}
+  {% if inspector_class_context.dynamicCount.type_hint|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('hint:' ~ class.class) }}"><span class="badge pull-right">{{ dynamic_count.type_hint }}</span> Type Hint</a>
+      <a href="{{ view_path('hint:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.type_hint }}</span> Type Hint</a>
     </li>
   {% endif %}
 
-  {% if dynamic_count.annotation|default(0) > 0 %}
+  {% if inspector_class_context.dynamicCount.annotation|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('annotation:' ~ class.class) }}"><span class="badge pull-right">{{ dynamic_count.annotation }}</span> Annotation</a>
+      <a href="{{ view_path('annotation:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.annotation }}</span> Annotation</a>
     </li>
   {% endif %}
 
-  {% if dynamic_count.doc_type|default(0) > 0 %}
+  {% if inspector_class_context.dynamicCount.doc_type|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('doc:' ~ class.class) }}"><span class="badge pull-right">{{ dynamic_count.doc_type }}</span> Doc Type</a>
+      <a href="{{ view_path('doc:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.doc_type }}</span> Doc Type</a>
     </li>
   {% endif %}
 
-  {% if dynamic_count.use|default(0) > 0 %}
+  {% if inspector_class_context.dynamicCount.use|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('use:' ~ class.class) }}"><span class="badge pull-right">{{ dynamic_count.use }}</span> Use Import</a>
+      <a href="{{ view_path('use:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.use }}</span> Use Import</a>
     </li>
   {% endif %}
 

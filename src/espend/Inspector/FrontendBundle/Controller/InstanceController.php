@@ -42,10 +42,6 @@ class InstanceController extends Controller
         return array(
             'class' => $inspectorClass,
             'instances' => $instances,
-            'instance_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorInstance')->getClassCount($inspectorClass->getId()),
-            'method_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassCount($inspectorClass->getId()),
-            'super_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getClassCount($inspectorClass->getId()),
-            'dynamic_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorDynamic')->getClassCounts($inspectorClass->getId()),
         );
 
     }

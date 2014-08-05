@@ -73,10 +73,6 @@ class DynamicController extends Controller
             'class' => $inspectorClass,
             'dynamics' => $dynamics,
             'dynamic_name' => $map[$request->query->get('type')]['view'],
-            'instance_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorInstance')->getClassCount($inspectorClass->getId()),
-            'method_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassCount($inspectorClass->getId()),
-            'super_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getClassCount($inspectorClass->getId()),
-            'dynamic_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorDynamic')->getClassCounts($inspectorClass->getId()),
         );
 
     }
