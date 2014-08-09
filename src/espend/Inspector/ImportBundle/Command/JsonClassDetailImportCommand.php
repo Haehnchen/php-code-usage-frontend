@@ -58,7 +58,9 @@ class JsonClassDetailImportCommand extends ContainerAwareCommand {
 
             }
 
-            $em->flush();
+            $em->clear($fileEntity);
+            $em->clear('espend\Inspector\CoreBundle\Entity\InspectorFile');
+
         }
 
     }
