@@ -113,14 +113,14 @@ class JsonImportCommand extends ContainerAwareCommand {
 
             }
 
-            $em->flush();
+
 
             $progress->advance();
 
-            $em->clear($fileEntity);
+            if (($i % 30) == 0) {
 
-
-            if (($i % 5) == 0) {
+                $em->flush();
+                $em->clear($fileEntity);
 
                 /** @var UnitOfWork $unitOfWork */
                 $unitOfWork = $em->getUnitOfWork();
@@ -138,6 +138,8 @@ class JsonImportCommand extends ContainerAwareCommand {
             }
 
         }
+
+        $em->flush();
 
         $progress->finish();
 
