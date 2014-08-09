@@ -52,13 +52,11 @@ class DynamicController extends Controller
         }
 
         $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorDynamic')->createQueryBuilder('dynamic');
-        $qb->leftJoin('dynamic.class', 'class');
-        $qb->leftJoin('class.file', 'file');
-        $qb->leftJoin('file.project', 'project');
+        $qb->leftJoin('dynamic.file', 'file');
+        $qb->leftJoin('file.project', 'fileProject');
 
-        $qb->addSelect('project');
         $qb->addSelect('file');
-        $qb->addSelect('class');
+        $qb->addSelect('fileProject');
 
         $qb->andWhere($qb->expr()->in('dynamic.class', array($inspectorClass->getId())));
         $qb->andWhere('dynamic.type = :type');
