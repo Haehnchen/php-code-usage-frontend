@@ -31,7 +31,6 @@ class MethodController extends Controller
             }
 
             $class_ids = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getSubClassesIds($inspectorClass->getId());
-            $class_methods = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassMethods($class_ids);
 
             $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->createQueryBuilder('method');
             $qb->leftJoin('method.class', 'class');
@@ -54,9 +53,6 @@ class MethodController extends Controller
             return array(
                 'class' => $inspectorClass,
                 'methods' => $methods,
-                'instance_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorInstance')->getClassCount($inspectorClass->getId()),
-                'method_count' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassCount($class_ids),
-                'class_methods' => $class_methods,
             );
         }
 
@@ -70,6 +66,14 @@ class MethodController extends Controller
         }
 
         $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->createQueryBuilder('method');
+        $qb->leftJoin('method.class', 'class');
+        $qb->leftJoin('method.file', 'file');
+        $qb->leftJoin('file.project', 'project');
+
+        $qb->addSelect('project');
+        $qb->addSelect('file');
+        $qb->addSelect('class');
+
         $qb->andWhere('method.class = :class');
         $qb->setParameter('class', $inspectorClass->getId());
 
