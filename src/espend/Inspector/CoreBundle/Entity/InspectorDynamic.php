@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class InspectorDynamic
 {
+
     /**
      * @var integer
      */
@@ -40,9 +41,9 @@ class InspectorDynamic
     private $last_found_at;
 
     /**
-     * @var \espend\Inspector\CoreBundle\Entity\InspectorClass
+     * @var \espend\Inspector\CoreBundle\Entity\InspectorFile
      */
-    private $class;
+    private $file;
 
 
     /**
@@ -169,6 +170,34 @@ class InspectorDynamic
     {
         return $this->last_found_at;
     }
+
+    /**
+     * Set file
+     *
+     * @param \espend\Inspector\CoreBundle\Entity\InspectorFile $file
+     * @return InspectorDynamic
+     */
+    public function setFile(\espend\Inspector\CoreBundle\Entity\InspectorFile $file = null)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return \espend\Inspector\CoreBundle\Entity\InspectorFile 
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+    /**
+     * @var \espend\Inspector\CoreBundle\Entity\InspectorClass
+     */
+    private $class;
+
 
     /**
      * Set class

@@ -5,6 +5,9 @@ espend\Inspector\CoreBundle\Entity\InspectorDynamic:
     indexes:
         type_idx:
             columns: type
+    uniqueConstraints:
+        file_unique:
+            columns: key_unique, file_id
     fields:
         id:
             type: integer
@@ -18,7 +21,6 @@ espend\Inspector\CoreBundle\Entity\InspectorDynamic:
             type: integer
         key:
             type: string
-            #unique: true
             column: key_unique
         type:
             type: string
@@ -28,4 +30,6 @@ espend\Inspector\CoreBundle\Entity\InspectorDynamic:
     manyToOne:
         class:
             targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
+        file:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorFile
     lifecycleCallbacks: {  }

@@ -119,7 +119,8 @@ class JsonImportCommand extends ContainerAwareCommand {
 
             $em->clear($fileEntity);
 
-            if(($i % 5) == 0) {
+
+            if (($i % 5) == 0) {
 
                 /** @var UnitOfWork $unitOfWork */
                 $unitOfWork = $em->getUnitOfWork();
@@ -131,6 +132,7 @@ class JsonImportCommand extends ContainerAwareCommand {
                 $em->clear('espend\Inspector\CoreBundle\Entity\InspectorMethod');
                 $em->clear('espend\Inspector\CoreBundle\Entity\InspectorMethodChild');
                 $em->clear('espend\Inspector\CoreBundle\Entity\InspectorInstance');
+                $em->clear('espend\Inspector\CoreBundle\Entity\InspectorDynamic');
 
                 $output->writeln(sprintf('cleaned %d left %d', $before, $unitOfWork->size()));
             }
@@ -220,9 +222,10 @@ class JsonImportCommand extends ContainerAwareCommand {
 
         $class = $this->getClass($json['class']);
 
-        $key = $file->getProject()->getId() . '-' . $json['key'];
+        $key = $json['key'];
         $method = $this->getContainer()->get('doctrine')->getRepository('espendInspectorCoreBundle:InspectorMethod')->findOneBy(array(
             'key' => $key,
+            'file' => $file->getId(),
         ));
 
         if (!$method) {
@@ -279,9 +282,10 @@ class JsonImportCommand extends ContainerAwareCommand {
     protected function visitInstance($json, InspectorFile $fileEntity) {
         $class = $this->getClass($json['class']);
 
-        $key = $fileEntity->getId() . '-' . $json['key'];
+        $key = $json['key'];
         $instance = $this->em->getRepository('espendInspectorCoreBundle:InspectorInstance')->findOneBy(array(
             'key' => $key,
+            'file' => $fileEntity,
         ));
 
         if ($instance == null) {
@@ -327,15 +331,18 @@ class JsonImportCommand extends ContainerAwareCommand {
     protected function visitDynamic($json, InspectorFile $fileEntity) {
         $class = $this->getClass($json['class']);
 
-        $key = $fileEntity->getId() . '-' . $json['key'];
         $instance = $this->em->getRepository('espendInspectorCoreBundle:InspectorDynamic')->findOneBy(array(
-            'key' => $key,
+            'key' => $json['key'],
+            'file' => $fileEntity->getId(),
         ));
 
         if ($instance == null) {
             $instance = new InspectorDynamic();
             $instance->setClass($class);
-            $instance->setKey($key);
+            $instance->setKey($json['key']);
+            $instance->setFile($fileEntity);
+
+            $this->em->persist($instance);
         }
 
         $instance->setContext($json['context']['context']);
@@ -343,8 +350,6 @@ class JsonImportCommand extends ContainerAwareCommand {
         $instance->setType($json['type']);
 
         $instance->setLastFoundAt(new \DateTime());
-
-        $this->em->persist($instance);
 
     }
 

@@ -5,6 +5,9 @@ espend\Inspector\CoreBundle\Entity\InspectorMethod:
     indexes:
         method_idx:
             columns: method
+    uniqueConstraints:
+        file_unique:
+            columns: key_unique, file_id
     fields:
         id:
             type: integer
@@ -22,7 +25,6 @@ espend\Inspector\CoreBundle\Entity\InspectorMethod:
             type: date
         key:
             type: string
-            unique: true
             column: key_unique
     manyToOne:
         class:

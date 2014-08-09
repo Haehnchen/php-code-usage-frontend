@@ -5,6 +5,9 @@ espend\Inspector\CoreBundle\Entity\InspectorInstance:
     indexes:
         key_idx:
             columns: key_unique
+    uniqueConstraints:
+        file_unique:
+            columns: key_unique, file_id
     fields:
         id:
             type: integer
@@ -18,7 +21,6 @@ espend\Inspector\CoreBundle\Entity\InspectorInstance:
             type: integer
         key:
             type: string
-            #unique: true
             column: key_unique
         last_found_at:
             type: date
