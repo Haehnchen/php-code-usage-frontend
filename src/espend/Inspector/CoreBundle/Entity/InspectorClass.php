@@ -165,4 +165,32 @@ class InspectorClass
     {
         return $this->file;
     }
+    /**
+     * @var integer
+     */
+    private $weight = 0;
+
+
+    /**
+     * Set weight
+     *
+     * @param integer $weight
+     * @return InspectorClass
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return integer 
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
 }

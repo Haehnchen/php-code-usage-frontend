@@ -25,6 +25,9 @@ espend\Inspector\CoreBundle\Entity\InspectorDynamic:
         type:
             type: string
             length: 10
+        weight:
+            type: integer
+            nullable: true
         last_found_at:
             type: date
     manyToOne:

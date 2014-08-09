@@ -64,7 +64,8 @@ class DynamicController extends Controller
         $qb->andWhere('dynamic.type = :type');
         $qb->setParameter('type', $type);
 
-        $qb->setMaxResults(5);
+        $qb->addOrderBy('dynamic.weight', 'DESC');
+        $qb->addOrderBy('file.name');
 
         /** @var InspectorDynamic[] $dynamics */
         $dynamics = $this->get('knp_paginator')->paginate($qb, $request->query->get('page', 1));

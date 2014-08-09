@@ -248,4 +248,32 @@ class InspectorMethod
     {
         return $this->key;
     }
+    /**
+     * @var integer
+     */
+    private $weight = 0;
+
+
+    /**
+     * Set weight
+     *
+     * @param integer $weight
+     * @return InspectorMethod
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return integer 
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
 }

@@ -221,4 +221,32 @@ class InspectorDynamic
     {
         return $this->class;
     }
+    /**
+     * @var integer
+     */
+    private $weight = 0;
+
+
+    /**
+     * Set weight
+     *
+     * @param integer $weight
+     * @return InspectorDynamic
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return integer 
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
 }

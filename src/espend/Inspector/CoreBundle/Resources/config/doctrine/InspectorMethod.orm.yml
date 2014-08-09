@@ -23,6 +23,9 @@ espend\Inspector\CoreBundle\Entity\InspectorMethod:
             type: integer
         last_found_at:
             type: date
+        weight:
+            type: integer
+            nullable: true
         key:
             type: string
             column: key_unique

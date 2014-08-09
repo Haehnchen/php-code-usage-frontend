@@ -24,6 +24,9 @@ espend\Inspector\CoreBundle\Entity\InspectorInstance:
             column: key_unique
         last_found_at:
             type: date
+        weight:
+            type: integer
+            nullable: true
     manyToOne:
         class:
             targetEntity: InspectorClass

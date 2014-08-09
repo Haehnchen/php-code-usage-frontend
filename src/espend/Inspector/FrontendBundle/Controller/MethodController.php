@@ -46,6 +46,9 @@ class MethodController extends Controller
             $qb->andWhere('method.method = :name');
             $qb->setParameter('name', $result[2]);
 
+            $qb->addOrderBy('method.weight', 'DESC');
+            $qb->addOrderBy('class.class');
+
             $methods = $this->get('knp_paginator')->paginate($qb, $request->query->get('page', 1));
 
             return array(

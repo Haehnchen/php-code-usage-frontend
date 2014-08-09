@@ -18,6 +18,9 @@ espend\Inspector\CoreBundle\Entity\InspectorClass:
             nullable: true
         last_found_at:
             type: date
+        weight:
+            type: integer
+            nullable: true
     manyToOne:
         project:
             targetEntity: espend\Inspector\CoreBundle\Entity\InspectorProject

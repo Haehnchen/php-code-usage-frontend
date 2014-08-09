@@ -33,8 +33,12 @@ class InstanceController extends Controller
         $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorInstance')->createQueryBuilder('inst');
         $qb->andWhere('inst.class = :class');
         $qb->setParameter('class', $inspectorClass->getId());
+        $qb->join('inst.class', 'class');
+        $qb->join('inst.file', 'file');
+        $qb->addSelect('file');
 
-        $qb->setMaxResults(5);
+        $qb->addOrderBy('inst.weight', 'DESC');
+        $qb->addOrderBy('class.class');
 
         /** @var InspectorMethod[] $instances */
         $instances = $qb->getQuery()->getResult();
