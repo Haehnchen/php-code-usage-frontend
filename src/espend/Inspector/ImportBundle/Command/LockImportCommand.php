@@ -8,6 +8,8 @@ use espend\Inspector\CoreBundle\Entity\InspectorProject;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class LockImportCommand extends ContainerAwareCommand {
 
@@ -26,33 +28,46 @@ class LockImportCommand extends ContainerAwareCommand {
 
     protected function execute(InputInterface $input, OutputInterface $output) {
 
+        $dir = dirname($this->getContainer()->get('kernel')->getRootDir()) . '/inspector';
 
-        $file = dirname($this->getContainer()->get('kernel')->getRootDir()) . '/inspector/composer.lock';
-        if(!is_file($file)) {
-            $output->writeln('not found: ' . $file);
-            return;
+        $finder = new Finder();
+        $finder->files()->in($dir);
+        $finder->name('*composer.lock');
+
+        /** @var SplFileInfo[] $iterator */
+        $iterator = $finder->getIterator();
+
+        foreach ($iterator as $file) {
+            $output->writeln(sprintf('%s', $file->getRelativePathname()));
+            $this->fileVisitor($file);
         }
 
-        $content = json_decode(file_get_contents($file), true);
+    }
+
+    /**
+     * @param $file
+     */
+    private function fileVisitor(SplFileInfo $file) {
+
+        $content = json_decode($file->getContents(), true);
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        foreach($content['packages'] as $package) {
-
+        foreach ($content['packages'] as $package) {
 
             $packageEntity = $em->getRepository('espendInspectorCoreBundle:InspectorProject')->findOneBy(array(
-               'name' => $package['name'],
+                'name' => $package['name'],
             ));
 
-            if($packageEntity != null) {
-                if(isset($package['source']['reference'])) {
+            if ($packageEntity != null) {
+                if (isset($package['source']['reference'])) {
                     $packageEntity->setSourceReference($package['source']['reference']);
                 }
 
                 if (isset($package['source']['url']) && isset($package['source']['reference'])) {
 
                     $url = null;
-                    if ( preg_match('#/github.com/(.*)$#i', $package['source']['url'], $result)) {
-                        $url = 'https://github.com/' . trim($result[1], '.git') . '/blob/'. $package['source']['reference'] .'/%file%#L%line%';
+                    if (preg_match('#/github.com/(.*)$#i', $package['source']['url'], $result)) {
+                        $url = 'https://github.com/' . trim($result[1], '.git') . '/blob/' . $package['source']['reference'] . '/%file%#L%line%';
                     }
 
                     $packageEntity->setSourceUrl($url);
@@ -63,10 +78,9 @@ class LockImportCommand extends ContainerAwareCommand {
                 }
             }
 
-            $em->flush();
         }
 
-
+        $em->flush();
     }
 
 }

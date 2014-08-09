@@ -37,7 +37,8 @@ class PackagesImportCommand extends ContainerAwareCommand {
                 if(isset($package['package']['repository']) && preg_match('#/github.com/(.*)$#i', $package['package']['repository'], $result)) {
                     $url = 'https://github.com/'. trim($result[1], '.git') .'/blob/master/%file%#L%line%';
                 }
-
+            } else {
+                $output->writeln('error ' . $project->getName());
             }
 
             $project->setSourceUrl($url);
