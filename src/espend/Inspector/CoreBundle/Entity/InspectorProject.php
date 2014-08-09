@@ -220,4 +220,32 @@ class InspectorProject
     {
         return $this->source_reference;
     }
+    /**
+     * @var integer
+     */
+    private $downloads = 0;
+
+
+    /**
+     * Set downloads
+     *
+     * @param integer $downloads
+     * @return InspectorProject
+     */
+    public function setDownloads($downloads)
+    {
+        $this->downloads = $downloads;
+
+        return $this;
+    }
+
+    /**
+     * Get downloads
+     *
+     * @return integer 
+     */
+    public function getDownloads()
+    {
+        return $this->downloads;
+    }
 }

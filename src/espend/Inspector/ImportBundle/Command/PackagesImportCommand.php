@@ -33,6 +33,7 @@ class PackagesImportCommand extends ContainerAwareCommand {
             $url = null;
 
             $package = json_decode(@file_get_contents(sprintf('https://packagist.org/packages/%s.json', $project->getName())), true);
+
             if($package) {
                 if(isset($package['package']['repository']) && preg_match('#/github.com/(.*)$#i', $package['package']['repository'], $result)) {
                     $url = 'https://github.com/'. trim($result[1], '.git') .'/blob/master/%file%#L%line%';
@@ -42,6 +43,7 @@ class PackagesImportCommand extends ContainerAwareCommand {
             }
 
             $project->setSourceUrl($url);
+            $project->setDownloads(isset($package['package']['downloads']['total']) ? $package['package']['downloads']['total'] : 0);
         }
 
         $this->em->flush();

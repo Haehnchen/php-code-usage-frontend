@@ -2,6 +2,9 @@ espend\Inspector\CoreBundle\Entity\InspectorClass:
     type: entity
     table: inspector_class
     repositoryClass: InspectorClassRepository
+    indexes:
+        weight_idx:
+            columns: weight
     uniqueConstraints:
         class_idx:
             columns: class
@@ -14,7 +17,7 @@ espend\Inspector\CoreBundle\Entity\InspectorClass:
         class:
             type: string
         doc_comment:
-            type: string
+            type: text
             nullable: true
         last_found_at:
             type: date

@@ -1,6 +1,7 @@
 espend\Inspector\CoreBundle\Entity\InspectorProject:
     type: entity
     table: inspector_projects
+    repositoryClass: InspectorProjectRepository
     indexes:
         name_idx:
             columns: name
@@ -26,6 +27,10 @@ espend\Inspector\CoreBundle\Entity\InspectorProject:
         source_reference:
             type: string
             nullable: true
+        downloads:
+            type: integer
+            nullable: true
+            default: 0
         last_found_at:
             type: date
     lifecycleCallbacks: {  }

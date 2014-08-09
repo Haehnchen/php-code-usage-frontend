@@ -30,42 +30,8 @@ class ClassController extends Controller
             throw $this->createNotFoundException("class not found");
         }
 
-        $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorMethod')->createQueryBuilder('method');
-        $qb->andWhere('method.class = :class');
-        $qb->setParameter('class', $inspectorClass->getId());
-
-        $qb->setMaxResults(5);
-
-        /** @var InspectorMethod[] $methods */
-        $methods = $qb->getQuery()->getResult();
-
-        $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorInstance')->createQueryBuilder('inst');
-        $qb->andWhere('inst.class = :class');
-        $qb->setParameter('class', $inspectorClass->getId());
-
-        $qb->setMaxResults(5);
-
-        /** @var InspectorMethod[] $instances */
-        $instances = $qb->getQuery()->getResult();
-
-        $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->createQueryBuilder('super');
-        $qb->andWhere('super.class = :class');
-        $qb->join('super.class', 'class');
-        $qb->addSelect('class');
-        $qb->setParameter('class', $inspectorClass->getId());
-
-        $qb->setMaxResults(5);
-
-        /** @var InspectorSuper[] $supers */
-        $supers = $qb->getQuery()->getResult();
-
-
-
         return array(
             'class' => $inspectorClass,
-            'methods' => $methods,
-            'instances' => $instances,
-            'supers' => $supers,
         );
     }
 }

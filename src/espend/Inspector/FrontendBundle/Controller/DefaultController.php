@@ -61,13 +61,13 @@ class DefaultController extends Controller {
 
         $qbCount = clone $qb;
 
-        $qb->setMaxResults(30);
-
         $qb->leftJoin('class.project', 'project');
         $qb->addSelect('project');
+        $qb->addOrderBy('class.weight', 'DESC');
+        $qb->addOrderBy('class.class');
 
         /** @var InspectorClass[] $result */
-        $result = $qb->getQuery()->getResult();
+        $result = $this->get('knp_paginator')->paginate($qb, $request->query->get('page', 1));
 
         return $this->render('espendInspectorFrontendBundle:Default:indexPost.html.twig', array(
           'search_name' => $form->get('q')->getData(),

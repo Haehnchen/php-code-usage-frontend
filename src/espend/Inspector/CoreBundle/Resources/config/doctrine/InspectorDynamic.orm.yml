@@ -5,6 +5,10 @@ espend\Inspector\CoreBundle\Entity\InspectorDynamic:
     indexes:
         type_idx:
             columns: type
+        weight_idx:
+            columns: weight
+        index_idx:
+            columns: class_id, type
     uniqueConstraints:
         file_unique:
             columns: key_unique, file_id

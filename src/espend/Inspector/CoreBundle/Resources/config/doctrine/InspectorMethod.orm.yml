@@ -5,6 +5,8 @@ espend\Inspector\CoreBundle\Entity\InspectorMethod:
     indexes:
         method_idx:
             columns: method
+        weight_idx:
+            columns: weight
     uniqueConstraints:
         file_unique:
             columns: key_unique, file_id
