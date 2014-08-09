@@ -67,6 +67,9 @@ class ClassContextContainer {
         $qb->addSelect('parentClass');
         $qb->andWhere('supers.child = :child');
         $qb->setParameter('child', $this->getClass()->getId());
+        $qb->groupBy('parentClass.id');
+        $qb->addOrderBy('parentClass.weight', 'DESC');
+        $qb->addOrderBy('parentClass.class');
 
         /** @var InspectorClass[] $inspectorSupers */
         $inspectorSupers = $qb->getQuery()->getResult();
