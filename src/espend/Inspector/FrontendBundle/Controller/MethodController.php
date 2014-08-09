@@ -74,6 +74,9 @@ class MethodController extends Controller
         $qb->addSelect('file');
         $qb->addSelect('class');
 
+        $qb->addOrderBy('method.weight', 'DESC');
+        $qb->addOrderBy('class.class');
+
         $qb->andWhere('method.class = :class');
         $qb->setParameter('class', $inspectorClass->getId());
 
