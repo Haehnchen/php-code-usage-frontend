@@ -57,6 +57,10 @@ class ClassContextContainer {
         ));
     }
 
+    public function getChildrenClasses() {
+
+    }
+
     /**
      * @return InspectorClass[]
      */

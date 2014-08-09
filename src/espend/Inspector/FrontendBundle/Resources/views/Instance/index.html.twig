@@ -19,7 +19,7 @@
 
           <div class="panel panel-default panel-code-context">
             <div class="panel-heading">
-              Instance
+              <span class="text-muted">{{ instance.file.name }}</span>
               {% include 'espendInspectorFrontendBundle:Default/include:project_link.html.twig' with {'file': instance.file, 'line': instance.line} only %}
             </div>
             <div class="panel-body">
@@ -29,6 +29,10 @@
 
         {% endfor %}
       {% endif %}
+
+      <div class="navigation text-center">
+        {{ knp_pagination_render(instances) }}
+      </div>
 
     </div>
 

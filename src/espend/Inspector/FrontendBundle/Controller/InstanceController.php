@@ -35,13 +35,15 @@ class InstanceController extends Controller
         $qb->setParameter('class', $inspectorClass->getId());
         $qb->join('inst.class', 'class');
         $qb->join('inst.file', 'file');
+        $qb->leftJoin('file.project', 'project');
         $qb->addSelect('file');
+        $qb->addSelect('project');
 
         $qb->addOrderBy('inst.weight', 'DESC');
         $qb->addOrderBy('class.class');
 
         /** @var InspectorMethod[] $instances */
-        $instances = $qb->getQuery()->getResult();
+        $instances = $this->get('knp_paginator')->paginate($qb, $request->query->get('page', 1));
 
         return array(
             'class' => $inspectorClass,
