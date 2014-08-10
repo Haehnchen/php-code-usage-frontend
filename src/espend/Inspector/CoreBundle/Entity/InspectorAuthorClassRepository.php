@@ -20,7 +20,7 @@ class InspectorAuthorClassRepository extends EntityRepository
         $qb->orderBy('total', 'DESC');
         $qb->setMaxResults($limit);
 
-        return $qb->getQuery()->getArrayResult();
+        return $qb->getQuery();
     }
 
 }

@@ -52,7 +52,7 @@ class InspectorSuperRepository extends EntityRepository
         $qb->setMaxResults($limit);
         $qb->andWhere($qb->expr()->notIn('child.class', array('Traversable', 'IteratorAggregate', 'Exception', 'Countable', 'Iterator', 'RuntimeException')));
 
-        return $qb->getQuery()->getArrayResult();
+        return $qb->getQuery();
     }
 
 }

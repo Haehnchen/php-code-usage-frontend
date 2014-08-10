@@ -29,8 +29,8 @@ class DefaultController extends Controller {
 
         return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
             'form' => $form->createView(),
-            'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList(),
-            'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList(),
+            'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList()->useResultCache(true, 86400)->getArrayResult(),
+            'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList()->useResultCache(true, 86400)->getArrayResult(),
         ));
 
     }
@@ -105,8 +105,8 @@ class DefaultController extends Controller {
             return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
                 'error' => 'oops, invalid search...',
                 'form' => $form->createView(),
-                'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList(),
-                'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList(),
+                'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList()->useResultCache(true, 86400)->getArrayResult(),
+                'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList()->useResultCache(true, 86400)->getArrayResult(),
             ));
         }
 
@@ -132,8 +132,8 @@ class DefaultController extends Controller {
                 return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
                     'error' => 'oops, invalid search...',
                     'form' => $form->createView(),
-                    'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList(),
-                    'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList(),
+                    'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList()->useResultCache(true, 86400)->getArrayResult(),
+                    'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList()->useResultCache(true, 86400)->getArrayResult(),
                 ));
             }
 

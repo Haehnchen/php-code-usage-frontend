@@ -67,9 +67,9 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
-        metadata_cache_driver: array
-        result_cache_driver: array
-        query_cache_driver: array
+        metadata_cache_driver: %doctrine_cache_driver%
+        result_cache_driver: %doctrine_cache_driver%
+        query_cache_driver: %doctrine_cache_driver%
 
 
 # Swiftmailer Configuration
