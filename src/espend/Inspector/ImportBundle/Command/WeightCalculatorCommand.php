@@ -106,15 +106,14 @@ class WeightCalculatorCommand extends ContainerAwareCommand {
         $qb = $inspectorDynamicRepository->createQueryBuilder('dynamic');
         $qb->join('dynamic.file', 'dynamicFile');
         $qb->join('dynamic.class', 'class');
-        $qb->join('class.project', 'projectClass');
         $qb->join('class.file', 'file');
-        $qb->join('file.project', 'projectFile');
+        $qb->join('dynamicFile.project', 'dynamicProject');
 
         $qb->select(array(
             'dynamic.id',
-            'projectFile.downloads as projectFileDownloads',
-            'projectClass.downloads as projectClassDownloads',
-            'dynamicFile.name'
+            'dynamicProject.downloads as dynamicFileDownloads',
+            'dynamicFile.name',
+            'class.weight as classWeight',
         ));
 
         $iterableResult = $qb->getQuery()->iterate(null, AbstractQuery::HYDRATE_SCALAR);
@@ -123,20 +122,18 @@ class WeightCalculatorCommand extends ContainerAwareCommand {
         $connection->beginTransaction();
         foreach ($iterableResult AS $row) {
 
-
-            $downloads = $row[0]['projectFileDownloads'] + $row[0]['projectClassDownloads'];
-            $projectScore = ($downloads / $max) * 100;
-
-            $value = round($projectScore * 100);
+            $dynamicDownloadScore = ($row[0]['dynamicFileDownloads'] / $max) * 10000;
             if (preg_match('#(Test|Fixture)#i', $row[0]['name'], $foo)) {
-                $value = $value * 0.1;
+                $dynamicDownloadScore = $dynamicDownloadScore * 0.1;
             }
+
+            $weight = ($row[0]['classWeight'] + $dynamicDownloadScore) / 2;
 
             $qb = $inspectorDynamicRepository->createQueryBuilder('dyn')->update();
             $qb->andWhere('dyn.id = :id');
             $qb->setParameter('id', $row[0]['id']);
 
-            $qb->set('dyn.weight', $value);
+            $qb->set('dyn.weight', $weight);
             $qb->getQuery()->execute();
 
             if (($i++ % 500) == 0) {
