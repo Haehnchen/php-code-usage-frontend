@@ -28,7 +28,7 @@ class InspectorMethodRepository extends EntityRepository
             'class.class',
         ));
 
-        return $qb->getQuery()->getArrayResult();
+        return $qb->getQuery()->useQueryCache(true)->useResultCache(true, 43200)->getArrayResult();
     }
 
 }

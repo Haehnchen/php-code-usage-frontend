@@ -19,7 +19,7 @@ class InspectorInstanceRepository extends EntityRepository
         $qb->select('count(inst.id)');
         $qb->andWhere($qb->expr()->in('inst.class', (array) $class_ids));
 
-        return $qb->getQuery()->getSingleScalarResult();
+        return $qb->getQuery()->useQueryCache(true)->useResultCache(true, 43200)->getSingleScalarResult();
     }
 
 }

@@ -18,7 +18,7 @@ class InspectorClassRepository extends EntityRepository
         $qb->andWhere('class.class = :class');
         $qb->setParameter('class', $className);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $qb->getQuery();
     }
 
     public function getProjects($className) {

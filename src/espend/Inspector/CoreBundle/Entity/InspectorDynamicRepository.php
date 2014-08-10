@@ -18,7 +18,7 @@ class InspectorDynamicRepository extends EntityRepository
         $qb1->andWhere($qb1->expr()->in('dynamic.class', array($id)));
         $qb1->groupBy('dynamic.type');
 
-        return array_column($qb1->getQuery()->getArrayResult(), 'total', 'type');
+        return array_column($qb1->getQuery()->useQueryCache(true)->useResultCache(true, 43200)->getArrayResult(), 'total', 'type');
     }
 
 }

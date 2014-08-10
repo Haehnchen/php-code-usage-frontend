@@ -55,7 +55,10 @@ class ClassContextContainer {
      * @return InspectorClass
      */
     public function getClass() {
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorClass')->getClassWithProject($this->getClassName());
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorClass')
+            ->getClassWithProject($this->getClassName())
+            ->useQueryCache(true)->useResultCache(true, 43200)
+            ->getOneOrNullResult();
     }
 
     public function getChildrenClasses() {
@@ -77,7 +80,7 @@ class ClassContextContainer {
         $qb->addOrderBy('parentClass.class');
 
         /** @var InspectorClass[] $inspectorSupers */
-        $inspectorSupers = $qb->getQuery()->getResult();
+        $inspectorSupers = $qb->getQuery()->useQueryCache(true)->useResultCache(true, 43200)->getResult();
 
         // @TODO: remove; foreign
         $child = array();
