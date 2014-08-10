@@ -106,6 +106,7 @@ class DefaultController extends Controller {
                 'error' => 'oops, invalid search...',
                 'form' => $form->createView(),
                 'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList(),
+                'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList(),
             ));
         }
 
@@ -132,6 +133,7 @@ class DefaultController extends Controller {
                     'error' => 'oops, invalid search...',
                     'form' => $form->createView(),
                     'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList(),
+                    'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList(),
                 ));
             }
 
