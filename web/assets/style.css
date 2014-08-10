@@ -152,3 +152,34 @@ footer {
     margin: 3px 0;
     font-weight: bold;
 }
+
+.row-hitlist {
+    font-size:12px;
+    opacity: .4;
+
+    margin-top: 50px;
+
+    -webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition: opacity 0.2s ease-in-out;
+    -o-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.row-hitlist:hover {
+    font-size: 12px;
+    opacity: .9;
+}
+
+.table.table-contributor > thead > tr > th {
+    border-bottom: 2px solid #f3f3f3;
+    vertical-align: bottom;
+}
+
+.table.table-contributor > thead > tr > th,
+.table.table-contributor > tbody > tr > th,
+.table.table-contributor > tfoot > tr > th,
+.table.table-contributor > thead > tr > td,
+.table.table-contributor > tbody > tr > td,
+.table.table-contributor > tfoot > tr > td {
+    border-top: 1px solid #f3f3f3;
+}

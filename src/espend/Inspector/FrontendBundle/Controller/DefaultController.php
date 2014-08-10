@@ -28,7 +28,9 @@ class DefaultController extends Controller {
         ));
 
         return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
-          'form' => $form->createView(),
+            'form' => $form->createView(),
+            'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList(),
+            'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList(),
         ));
 
     }
@@ -103,28 +105,39 @@ class DefaultController extends Controller {
             return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
                 'error' => 'oops, invalid search...',
                 'form' => $form->createView(),
+                'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList(),
             ));
         }
-
-        $data = explode(' ', preg_replace('#(\s+)#', ' ', $searchQuery));
 
         $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorClass')->createQueryBuilder('class');
-        $expr = $qb->expr()->andX();
 
-        foreach ($data as $q) {
-            if (strlen($q) > 2) {
-                $expr->add($qb->expr()->like('class.class', $qb->expr()->literal('%' . $q . '%')));
+        if(preg_match('#^author:(.*)$#i', $searchQuery, $result)) {
+            $qb->join('class.author_class', 'author_class');
+            $qb->join('author_class.author', 'author');
+            $qb->andWhere('author.name = :author_name');
+            $qb->setParameter('author_name', $result[1]);
+
+        } else {
+            $data = explode(' ', preg_replace('#(\s+)#', ' ', $searchQuery));
+            $expr = $qb->expr()->andX();
+
+            foreach ($data as $q) {
+                if (strlen($q) > 2) {
+                    $expr->add($qb->expr()->like('class.class', $qb->expr()->literal('%' . $q . '%')));
+                }
             }
+
+            if ($expr->count() == 0) {
+                return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
+                    'error' => 'oops, invalid search...',
+                    'form' => $form->createView(),
+                    'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList(),
+                ));
+            }
+
+            $qb->andWhere($expr);
         }
 
-        if ($expr->count() == 0) {
-            return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
-                'error' => 'oops, invalid search...',
-                'form' => $form->createView(),
-            ));
-        }
-
-        $qb->andWhere($expr);
 
         $qbCount = clone $qb;
 

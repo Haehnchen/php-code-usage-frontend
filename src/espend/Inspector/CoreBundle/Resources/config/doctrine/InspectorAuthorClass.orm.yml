@@ -1,6 +1,7 @@
 espend\Inspector\CoreBundle\Entity\InspectorAuthorClass:
     type: entity
     table: inspector_author_class
+    repositoryClass: InspectorAuthorClassRepository
     uniqueConstraints:
         class_idx:
             columns: author_id, class_id
@@ -15,6 +16,11 @@ espend\Inspector\CoreBundle\Entity\InspectorAuthorClass:
     manyToOne:
         author:
             targetEntity: espend\Inspector\CoreBundle\Entity\InspectorAuthor
+            joinColumn:
+                onDelete: CASCADE
         class:
             targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
+            inversedBy: author_class
+            joinColumn:
+                onDelete: CASCADE
     lifecycleCallbacks: {  }

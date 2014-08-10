@@ -1,6 +1,7 @@
 espend\Inspector\CoreBundle\Entity\InspectorAuthor:
     type: entity
     table: inspector_author
+    repositoryClass: InspectorAuthorRepository
     uniqueConstraints:
         name_idx:
             columns: name, mail

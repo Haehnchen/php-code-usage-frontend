@@ -46,8 +46,8 @@ class AuthorCommand extends ContainerAwareCommand {
 
                 foreach($result as $res) {
 
-                    $name = trim($res[1]);
-                    $mail = trim($res[2]);
+                    $name = trim(preg_replace('#\s+#', ' ', $res[1]));
+                    $mail = trim(preg_replace('#\s+#', ' ', $res[2]));
 
                     if(strlen($name) > 0 && strlen($mail) > 0) {
 

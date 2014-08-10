@@ -193,4 +193,49 @@ class InspectorClass
     {
         return $this->weight;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $author_class;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->author_class = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add author_class
+     *
+     * @param \espend\Inspector\CoreBundle\Entity\InspectorAuthorClass $authorClass
+     * @return InspectorClass
+     */
+    public function addAuthorClass(\espend\Inspector\CoreBundle\Entity\InspectorAuthorClass $authorClass)
+    {
+        $this->author_class[] = $authorClass;
+
+        return $this;
+    }
+
+    /**
+     * Remove author_class
+     *
+     * @param \espend\Inspector\CoreBundle\Entity\InspectorAuthorClass $authorClass
+     */
+    public function removeAuthorClass(\espend\Inspector\CoreBundle\Entity\InspectorAuthorClass $authorClass)
+    {
+        $this->author_class->removeElement($authorClass);
+    }
+
+    /**
+     * Get author_class
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAuthorClass()
+    {
+        return $this->author_class;
+    }
 }

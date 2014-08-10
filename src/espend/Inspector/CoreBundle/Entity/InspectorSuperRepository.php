@@ -37,4 +37,22 @@ class InspectorSuperRepository extends EntityRepository
 
         return array_unique($class_ids);
     }
+
+    public function getHistList($limit = 8) {
+        $qb = $this->createQueryBuilder('super');
+
+        $qb->join('super.child', 'child');
+        $qb->groupBy('child.id');
+        $qb->select(array(
+            'child.class',
+            'count(child.id) as total'
+        ));
+
+        $qb->orderBy('total', 'DESC');
+        $qb->setMaxResults($limit);
+        $qb->andWhere($qb->expr()->notIn('child.class', array('Traversable', 'IteratorAggregate', 'Exception', 'Countable', 'Iterator', 'RuntimeException')));
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
 }
