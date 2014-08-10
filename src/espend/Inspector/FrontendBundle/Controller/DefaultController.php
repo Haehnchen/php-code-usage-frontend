@@ -6,6 +6,7 @@ namespace espend\Inspector\FrontendBundle\Controller;
 use espend\Inspector\CoreBundle\Entity\InspectorClass;
 use espend\Inspector\FrontendBundle\Form\HomeFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,8 +14,17 @@ class DefaultController extends Controller {
 
     public function indexAction(Request $request) {
 
+
+        if($request->query->has('q')) {
+            return $this->getSearchResponse($request, $request->query->get('q'), $this->createForm(new HomeFormType(), null, array(
+                'action' => $this->generateUrl('espend_inspector_frontend_home_post'),
+                'method' => 'GET',
+            )));
+        }
+
         $form = $this->createForm(new HomeFormType(), null, array(
-          'action' => $this->generateUrl('espend_inspector_frontend_home_post')
+          'action' => $this->generateUrl('espend_inspector_frontend_home_post'),
+          'method' => 'GET',
         ));
 
         return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
@@ -26,7 +36,8 @@ class DefaultController extends Controller {
     public function indexPostAction(Request $request) {
 
         $form = $this->createForm(new HomeFormType(), null, array(
-          'action' => $this->generateUrl('espend_inspector_frontend_home_post')
+          'action' => $this->generateUrl('espend_inspector_frontend_home_post'),
+          'method' => 'GET',
         ));
 
         $form->handleRequest($request);
@@ -37,45 +48,9 @@ class DefaultController extends Controller {
             ));
         }
 
-
-        $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorClass')->createQueryBuilder('class');
         $data = $form->get('q')->getData();
 
-        $data = explode(' ', preg_replace('#\s+#', ' ', $data));
-
-        $expr = $qb->expr()->andX();
-        foreach($data as $q) {
-            if(strlen($q) > 2) {
-                $expr->add($qb->expr()->like('class.class', $qb->expr()->literal('%' . $q . '%')));
-            }
-        }
-
-        if($expr->count() == 0) {
-            return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
-              'error' => 'oops, invalid search...',
-              'form' => $form->createView(),
-            ));
-        }
-
-        $qb->andWhere($expr);
-
-        $qbCount = clone $qb;
-
-        $qb->leftJoin('class.file', 'file');
-        $qb->leftJoin('class.project', 'project');
-        $qb->addSelect('project');
-        $qb->addSelect('file');
-        $qb->addOrderBy('class.weight', 'DESC');
-        $qb->addOrderBy('class.class');
-
-        /** @var InspectorClass[] $result */
-        $result = $this->get('knp_paginator')->paginate($qb, $request->query->get('page', 1));
-
-        return $this->render('espendInspectorFrontendBundle:Default:indexPost.html.twig', array(
-          'search_name' => $form->get('q')->getData(),
-          'results' => $result,
-          'result_count' => $qbCount->select('count(class.id)')->getQuery()->getSingleScalarResult(),
-        ));
+        return $this->getSearchResponse($request, $data, $form);
 
     }
 
@@ -120,6 +95,54 @@ class DefaultController extends Controller {
             ));
         }
 
+    }
+
+    private function getSearchResponse(Request $request, $searchQuery, FormInterface $form) {
+
+        if(strlen($searchQuery) > 50) {
+            return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
+                'error' => 'oops, invalid search...',
+                'form' => $form->createView(),
+            ));
+        }
+
+        $data = explode(' ', preg_replace('#(\s+)#', ' ', $searchQuery));
+
+        $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorClass')->createQueryBuilder('class');
+        $expr = $qb->expr()->andX();
+
+        foreach ($data as $q) {
+            if (strlen($q) > 2) {
+                $expr->add($qb->expr()->like('class.class', $qb->expr()->literal('%' . $q . '%')));
+            }
+        }
+
+        if ($expr->count() == 0) {
+            return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
+                'error' => 'oops, invalid search...',
+                'form' => $form->createView(),
+            ));
+        }
+
+        $qb->andWhere($expr);
+
+        $qbCount = clone $qb;
+
+        $qb->leftJoin('class.file', 'file');
+        $qb->leftJoin('class.project', 'project');
+        $qb->addSelect('project');
+        $qb->addSelect('file');
+        $qb->addOrderBy('class.weight', 'DESC');
+        $qb->addOrderBy('class.class');
+
+        /** @var InspectorClass[] $result */
+        $result = $this->get('knp_paginator')->paginate($qb, $request->query->get('page', 1));
+
+        return $this->render('espendInspectorFrontendBundle:Default:indexPost.html.twig', array(
+            'search_name' => $searchQuery,
+            'results' => $result,
+            'result_count' => $qbCount->select('count(class.id)')->getQuery()->getSingleScalarResult(),
+        ));
     }
 
 }
