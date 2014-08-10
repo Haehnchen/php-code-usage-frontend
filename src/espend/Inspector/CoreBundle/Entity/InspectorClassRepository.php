@@ -21,4 +21,18 @@ class InspectorClassRepository extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+    public function getProjects($className) {
+        $qb = $this->createQueryBuilder('class');
+
+        $qb->leftJoin('class.file', 'file');
+        $qb->leftJoin('file.project', 'project');
+        $qb->addSelect('file');
+        $qb->addSelect('project');
+
+        $qb->andWhere('class.class = :class');
+        $qb->setParameter('class', $className);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 }

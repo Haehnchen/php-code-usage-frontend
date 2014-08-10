@@ -1,0 +1,20 @@
+espend\Inspector\CoreBundle\Entity\InspectorAuthorClass:
+    type: entity
+    table: inspector_author_class
+    uniqueConstraints:
+        class_idx:
+            columns: author_id, class_id
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        last_found_at:
+            type: date
+    manyToOne:
+        author:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorAuthor
+        class:
+            targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
+    lifecycleCallbacks: {  }

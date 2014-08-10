@@ -1,0 +1,21 @@
+espend\Inspector\CoreBundle\Entity\InspectorAuthor:
+    type: entity
+    table: inspector_author
+    uniqueConstraints:
+        name_idx:
+            columns: name, mail
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            nullable: true
+        mail:
+            type: string
+            nullable: true
+        last_found_at:
+            type: date
+    lifecycleCallbacks: {  }
