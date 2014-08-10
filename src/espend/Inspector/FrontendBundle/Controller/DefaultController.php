@@ -61,8 +61,10 @@ class DefaultController extends Controller {
 
         $qbCount = clone $qb;
 
+        $qb->leftJoin('class.file', 'file');
         $qb->leftJoin('class.project', 'project');
         $qb->addSelect('project');
+        $qb->addSelect('file');
         $qb->addOrderBy('class.weight', 'DESC');
         $qb->addOrderBy('class.class');
 

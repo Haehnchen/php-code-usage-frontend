@@ -24,7 +24,7 @@
 
           {% if result.project %}
             <ul>
-              <li>{{ result.project.name }} - {{ result.project.version }}</li>
+              <li>{{ result.project.name }}{% if result.project.version %} - {{ result.project.version }}{% endif %}</li>
             </ul>
           {% endif %}
 
