@@ -13,24 +13,6 @@
 
     <div class="col-md-9">
 
-      {% if inspector_class_context.subClasses|length > 0 %}
-
-      <div class="panel panel-default">
-        <div class="panel-heading">Extended by</div>
-        <div class="panel-body">
-          <table class="table">
-            {% for row in inspector_class_context.subClasses|batch(2) %}
-              <tr>
-                {% for column in row %}
-                  <td><a href="{{ view_path(column.class) }}">{{ column.class }}</a></td>
-                {% endfor %}
-              </tr>
-            {% endfor %}
-          </table>
-        </div>
-      </div>
-      {% endif %}
-
 
     </div>
 
