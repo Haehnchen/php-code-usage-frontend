@@ -24,19 +24,19 @@ class DynamicController extends Controller
         $map = array(
             'hint' => array(
                 'internal' => 'type_hint',
-                'view' => 'Type Hint',
+                'view' => 'Type Hinting',
             ),
             'doc' => array(
                 'internal' => 'doc_type',
-                'view' => 'Doc Typ',
+                'view' => 'Docblock Typ',
             ),
             'annotation' => array(
                 'internal' => 'annotation',
-                'view' => 'Type annotation',
+                'view' => 'Annotation',
             ),
             'use' => array(
                 'internal' => 'use',
-                'view' => 'Import Usage',
+                'view' => 'Use Import',
             ),
         );
 

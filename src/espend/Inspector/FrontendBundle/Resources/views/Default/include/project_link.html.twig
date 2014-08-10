@@ -1,3 +1,4 @@
+{% spaceless %}
 {% if file.project is defined %}
   <div class="pull-right">
     {% if file.project.sourceUrl|default %}
@@ -11,3 +12,4 @@
     {% endif %}
   </div>
 {% endif %}
+{% endspaceless %}

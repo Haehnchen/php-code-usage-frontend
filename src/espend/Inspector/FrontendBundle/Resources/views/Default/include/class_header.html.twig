@@ -1,3 +1,4 @@
+<section>
 <div class="margin-bottom5">
   <h2 class="no-margin-bottom">Usage for:
     <a href="{{ view_path(inspector_class_context.className) }}">{{ inspector_class_context.className }}</a></h2>
@@ -21,10 +22,15 @@
 
   {% set extends_count = inspector_class_context.subClasses|length %}
   {% if extends_count > 0 %}
-    <ul class="list-extends-classes">
+    <div class="list-extends-classes">
       <h3 class="header-seo">Extends ({{ extends_count }}){% if extends_count > 15 %} <a href="#" class="toggle-visible" data-show-msg="expand" data-hide-msg="collapse">expand</a> {% endif %}</h3>
-      {% for super_class in inspector_class_context.subClasses %}
-        <li{% if loop.index > 15 %} class="limit hide"{% endif %}><a href="{{ view_path(super_class.class) }}">{{ super_class.class }}</a></li>
-      {% endfor %}
-    </ul>
+      <ul>
+        {% for super_class in inspector_class_context.subClasses %}
+          <li{% if loop.index > 15 %} class="limit hide"{% endif %}>
+            <a href="{{ view_path(super_class.class) }}">{{ super_class.class }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
 {% endif %}
+</section>

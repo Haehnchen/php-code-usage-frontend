@@ -1,3 +1,5 @@
+{% spaceless %}
+<nav>
 <h4>Menu</h4>
 <ul class="nav nav-pills nav-stacked nav-nested">
 
@@ -5,14 +7,14 @@
     <li>
       <a href="{{ view_path('instance:' ~ class.class) }}">
         <span class="badge pull-right">{{ inspector_class_context.instanceCount }}</span>
-        Instances
+        New Instance Creation
       </a>
     </li>
   {% endif %}
 
   {% if inspector_class_context.dynamicCount.type_hint|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('hint:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.type_hint }}</span> Type Hint</a>
+      <a href="{{ view_path('hint:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.type_hint }}</span> Type Hinting</a>
     </li>
   {% endif %}
 
@@ -24,7 +26,7 @@
 
   {% if inspector_class_context.dynamicCount.doc_type|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('doc:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.doc_type }}</span> Doc Type</a>
+      <a href="{{ view_path('doc:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.doc_type }}</span> Docblock Type</a>
     </li>
   {% endif %}
 
@@ -56,3 +58,5 @@
   {% endif %}
 
 </ul>
+</nav>
+{% endspaceless %}

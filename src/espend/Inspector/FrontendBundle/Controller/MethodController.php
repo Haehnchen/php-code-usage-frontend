@@ -53,6 +53,7 @@ class MethodController extends Controller
             return array(
                 'class' => $inspectorClass,
                 'methods' => $methods,
+                'method_name' => $result[2],
             );
         }
 
