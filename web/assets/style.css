@@ -183,3 +183,10 @@ footer {
 .table.table-contributor > tfoot > tr > td {
     border-top: 1px solid #f3f3f3;
 }
+
+article.panel-code-context h3 {
+    font-size:14px;
+    margin:0;
+    padding:0;
+    display:inline;
+}
