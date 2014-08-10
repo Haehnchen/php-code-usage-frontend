@@ -51,10 +51,11 @@ class ClassContextContainer {
 
     }
 
+    /**
+     * @return InspectorClass
+     */
     public function getClass() {
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorClass')->findOneBy(array(
-           'class' => $this->getClassName(),
-        ));
+        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorClass')->getClassWithProject($this->getClassName());
     }
 
     public function getChildrenClasses() {
