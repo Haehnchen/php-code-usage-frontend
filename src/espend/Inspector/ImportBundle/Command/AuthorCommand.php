@@ -42,14 +42,14 @@ class AuthorCommand extends ContainerAwareCommand {
         $i = 0;
         foreach ($iterableResult AS $row) {
 
-            if(preg_match_all("#\@author\s*(.*)\s*<\s*(.*@.*)\s*>#i", $row[0]['doc_comment'], $result, PREG_SET_ORDER)) {
+            if(preg_match_all("#\@author\s*([^<].*)\s*<\s*([^<(> ]*\p{L}+@*\p{L}+)\s*>#i", $row[0]['doc_comment'], $result, PREG_SET_ORDER)) {
 
                 foreach($result as $res) {
 
                     $name = trim(preg_replace('#\s+#', ' ', $res[1]));
                     $mail = trim(preg_replace('#\s+#', ' ', $res[2]));
 
-                    if(strlen($name) > 0 && strlen($mail) > 0) {
+                    if(strlen($name) > 0 && strlen($name) < 255 && strlen($mail) > 0 && strlen($mail) < 255) {
 
                         $author = $this->getAuthor($name, $mail);
 
@@ -67,6 +67,8 @@ class AuthorCommand extends ContainerAwareCommand {
 
                         $author_class->setLastFoundAt(new \DateTime());
 
+                    } else {
+                        $output->writeln('error: ' . json_encode($res));
                     }
 
                 }
