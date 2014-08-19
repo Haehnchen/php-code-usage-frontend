@@ -78,6 +78,32 @@ class LockImportCommand extends ContainerAwareCommand {
                 }
             }
 
+            // package replace feature
+            if (isset($package['replace']) && isset($package['source']['reference'])) {
+                $y = array_keys($package['replace']);
+                if(count($y) > 0) {
+
+                    $qb = $em->getRepository('espendInspectorCoreBundle:InspectorProject')->createQueryBuilder('project')->update();
+
+                    $qb->set('project.source_reference', $qb->expr()->literal($package['source']['reference']));
+
+                    if(isset($package['version'])) {
+                        $qb->set('project.version', $qb->expr()->literal($package['version']));
+                    }
+
+                    if(isset($package['source']['url'])) {
+                        if (preg_match('#/github.com/(.*)$#i', $package['source']['url'], $result)) {
+                            $url = 'https://github.com/' . trim($result[1], '.git') . '/blob/' . $package['source']['reference'] . '/%file%#L%line%';
+                            $qb->set('project.source_url', $qb->expr()->literal($url));
+                        }
+                    }
+
+                    $qb->andWhere($qb->expr()->in('project.name', $y));
+                    $qb->getQuery()->execute();
+                }
+
+            }
+
         }
 
         $em->flush();
