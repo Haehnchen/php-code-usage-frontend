@@ -12,6 +12,10 @@ espend\Inspector\CoreBundle\Entity\InspectorMethodChild:
     manyToOne:
         method:
             targetEntity: espend\Inspector\CoreBundle\Entity\InspectorMethod
+            joinColumn:
+                onDelete: SET NULL
         class:
             targetEntity: espend\Inspector\CoreBundle\Entity\InspectorClass
+            joinColumn:
+                onDelete: SET NULL
     lifecycleCallbacks: {  }
