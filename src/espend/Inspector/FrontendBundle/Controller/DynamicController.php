@@ -38,6 +38,10 @@ class DynamicController extends Controller
                 'internal' => 'use',
                 'view' => 'Use Import',
             ),
+            'instanceof' => array(
+                'internal' => 'instanceof',
+                'view' => 'Use in instanceof',
+            ),
         );
 
         $name = $request->query->get('name');

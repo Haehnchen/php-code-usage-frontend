@@ -36,6 +36,13 @@
     </li>
   {% endif %}
 
+  {% if inspector_class_context.dynamicCount.instanceof|default(0) > 0 %}
+    <li>
+      <a href="{{ view_path('instanceof:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.instanceof }}</span>
+        Use Import</a>
+    </li>
+  {% endif %}
+
   {% if inspector_class_context.methodCount > 0 %}
     <li>
       <a href="{{ view_path('method:' ~ class.class) }}">

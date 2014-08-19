@@ -107,7 +107,7 @@ class JsonImportCommand extends ContainerAwareCommand {
                     $this->visitMethod($json, $fileEntity);
                 }
 
-                if (in_array($json['type'], ['use', 'annotation', 'type_hint', 'doc_type'])) {
+                if (in_array($json['type'], ['use', 'annotation', 'type_hint', 'doc_type', 'instanceof'])) {
                     $this->visitDynamic($json, $fileEntity);
                 }
 
