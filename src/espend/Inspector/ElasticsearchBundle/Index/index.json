@@ -1,0 +1,60 @@
+{
+  "mappings": {
+    "class": {
+      "properties": {
+        "class": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "context": {
+          "properties": {
+            "context": {
+              "properties": {
+                "content": {
+                  "type": "string"
+                },
+                "is_highlight": {
+                  "type": "boolean"
+                },
+                "line": {
+                  "type": "long"
+                }
+              }
+            },
+            "end_line": {
+              "type": "long"
+            },
+            "line": {
+              "type": "long"
+            },
+            "start_line": {
+              "type": "long"
+            }
+          }
+        },
+        "is_interface": {
+          "type": "boolean"
+        },
+        "key": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "methods": {
+          "properties": {
+            "class": {
+              "type": "string"
+            }
+          }
+        },
+        "name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "type": {
+          "type": "string",
+          "index": "not_analyzed"
+        }
+      }
+    }
+  }
+}

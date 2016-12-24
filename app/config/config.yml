@@ -35,7 +35,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        inspector_class_context: @espend_inspector_core.context
+        inspector_class_context: '@espend_inspector_core.context'
 
 # Assetic Configuration
 assetic:
@@ -67,9 +67,9 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
-        metadata_cache_driver: %doctrine_cache_driver%
-        result_cache_driver: %doctrine_cache_driver%
-        query_cache_driver: %doctrine_cache_driver%
+        metadata_cache_driver: '%doctrine_cache_driver%'
+        result_cache_driver: '%doctrine_cache_driver%'
+        query_cache_driver: '%doctrine_cache_driver%'
 
 
 # Swiftmailer Configuration
