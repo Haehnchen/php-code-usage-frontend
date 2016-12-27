@@ -6,7 +6,6 @@ services:
         class: espend\Inspector\CoreBundle\Doctrine\DbalQuery
         arguments: ['@doctrine.dbal.default_connection']
 
-
     espend_inspector_core.context:
         class: espend\Inspector\FrontendBundle\Context\ClassContextContainer
-        arguments: ['@request_stack', '@doctrine.orm.entity_manager']
+        arguments: ['@request_stack', '@doctrine.orm.entity_manager', '@espend_inspector_frontend.repository.class']

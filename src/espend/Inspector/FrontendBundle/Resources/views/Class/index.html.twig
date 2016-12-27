@@ -1,14 +1,17 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}Usage for: {{ inspector_class_context.className }}{% endblock %}
+{% block title %}Usage for: {{ class.class }}{% endblock %}
 
 {% block content %}
+
   {% include 'espendInspectorFrontendBundle:Default/include:class_header.html.twig' only %}
 
   <section class="row">
 
     <div class="col-md-3">
+
       {% include '@espendInspectorFrontend/Default/include/class_menu.html.twig' %}
+
     </div>
 
     <div class="col-md-9">

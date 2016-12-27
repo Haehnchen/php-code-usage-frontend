@@ -45,6 +45,10 @@ class InspectorDynamic
      */
     private $file;
 
+    /**
+     * @var string
+     */
+    private $name;
 
     /**
      * Get id
@@ -62,7 +66,7 @@ class InspectorDynamic
      * @param array $context
      * @return InspectorDynamic
      */
-    public function setContext($context)
+    public function setContext(array $context)
     {
         $this->context = $context;
 
@@ -248,5 +252,20 @@ class InspectorDynamic
     public function getWeight()
     {
         return $this->weight;
+    }
+
+    public function setName(string $name) : InspectorDynamic
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

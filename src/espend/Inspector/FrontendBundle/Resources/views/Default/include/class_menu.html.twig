@@ -1,9 +1,8 @@
 {% spaceless %}
 <nav>
-<h4>Menu</h4>
 <ul class="nav nav-pills nav-stacked nav-nested">
 
-  {% if inspector_class_context.instanceCount > 0 %}
+  {% if inspector_class_context.usage('instance') > 0 %}
     <li>
       <a href="{{ view_path('instance:' ~ class.class) }}">
         <span class="badge pull-right">{{ inspector_class_context.instanceCount }}</span>
@@ -12,34 +11,34 @@
     </li>
   {% endif %}
 
-  {% if inspector_class_context.dynamicCount.type_hint|default(0) > 0 %}
+  {% if inspector_class_context.usage('type_hint')|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('hint:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.type_hint }}</span> Type Hinting</a>
+      <a href="{{ view_path('hint:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.usage('type_hint') }}</span> Type Hinting</a>
     </li>
   {% endif %}
 
-  {% if inspector_class_context.dynamicCount.annotation|default(0) > 0 %}
+  {% if inspector_class_context.usage('annotation')|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('annotation:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.annotation }}</span> Annotation</a>
+      <a href="{{ view_path('annotation:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.usage('annotation') }}</span> Annotation</a>
     </li>
   {% endif %}
 
-  {% if inspector_class_context.dynamicCount.doc_type|default(0) > 0 %}
+  {% if inspector_class_context.usage('doc_type')|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('doc:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.doc_type }}</span> Docblock Type</a>
+      <a href="{{ view_path('doc:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.usage('doc_type') }}</span> Docblock Type</a>
     </li>
   {% endif %}
 
-  {% if inspector_class_context.dynamicCount.use|default(0) > 0 %}
+  {% if inspector_class_context.usage('use')|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('use:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.use }}</span> Use Import</a>
+      <a href="{{ view_path('use:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.usage('use') }}</span> Use Import</a>
     </li>
   {% endif %}
 
-  {% if inspector_class_context.dynamicCount.instanceof|default(0) > 0 %}
+  {% if inspector_class_context.usage('instanceof')|default(0) > 0 %}
     <li>
-      <a href="{{ view_path('instanceof:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.dynamicCount.instanceof }}</span>
-        Use Import</a>
+      <a href="{{ view_path('instanceof:' ~ class.class) }}"><span class="badge pull-right">{{ inspector_class_context.usage('instanceof') }}</span>
+        Instance Of</a>
     </li>
   {% endif %}
 
@@ -53,8 +52,8 @@
       <ul class="nav nav-pills nav-stacked">
         {% for method in inspector_class_context.classMethods %}
           <li>
-            <a href="{{ view_path(inspector_class_context.className ~ ':' ~ method.method) }}">
-              {{ method.method }}
+            <a href="{{ view_path(inspector_class_context.className ~ ':' ~ method.key) }}">
+              {{ method.key }} <span class="badge pull-right">{{ method.count }}</span>
             </a>
           </li>
         {% endfor %}

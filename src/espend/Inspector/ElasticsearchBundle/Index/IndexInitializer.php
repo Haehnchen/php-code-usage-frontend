@@ -26,9 +26,11 @@ class IndexInitializer
     {
         $index = json_decode(file_get_contents(__DIR__ . '/index.json'), true);
 
-        $this->client->indices()->delete([
-            'index' => 'code-usage',
-        ]);
+        if ($this->client->indices()->exists(['index' => ['code-usage']])) {
+            $this->client->indices()->delete([
+                'index' => 'code-usage',
+            ]);
+        }
 
         $this->client->indices()->create([
             'index' => 'code-usage',

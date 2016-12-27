@@ -1,12 +1,3 @@
 espend_inspector_frontend:
     resource: "@espendInspectorFrontendBundle/Resources/config/routing.yml"
     prefix:   /
-
-espend_inspector_import:
-    resource: "@espendInspectorImportBundle/Resources/config/routing.yml"
-    prefix:   /
-
-espend_inspector_core:
-    resource: "@espendInspectorCoreBundle/Resources/config/routing.yml"
-    prefix:   /
-

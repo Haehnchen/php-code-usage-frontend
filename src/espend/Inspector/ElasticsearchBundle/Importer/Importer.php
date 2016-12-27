@@ -5,6 +5,9 @@ namespace espend\Inspector\ElasticsearchBundle\Importer;
 
 use Elasticsearch\Client;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Finder\Finder;
 
 class Importer
@@ -22,6 +25,10 @@ class Importer
      * @var string
      */
     private $path;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
     /**
      * Importer constructor.
@@ -30,11 +37,12 @@ class Importer
      * @param string $path
      * @param LoggerInterface $logger
      */
-    public function __construct(Client $client, string $path, LoggerInterface $logger)
+    public function __construct(Client $client, string $path, EventDispatcherInterface $dispatcher, LoggerInterface $logger)
     {
         $this->client = $client;
         $this->logger = $logger;
         $this->path = $path;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -48,8 +56,7 @@ class Importer
         foreach ($this->visitFile() as $json) {
             foreach($json['items'] as $item) {
                 if (!isset($item['key'])) {
-                    $this->logger->debug('skipping');
-                    continue;
+                    $item['key'] = md5(json_encode($item));
                 }
 
                 $batch[] = [
@@ -60,7 +67,9 @@ class Importer
                     ]
                 ];
 
-                $batch[] = $item;
+                $this->dispatcher->dispatch('es.visit.class', $event = new GenericEvent($json, $item));
+
+                $batch[] = $event->getArguments();
 
                 if ($i++ % 100 == 0) {
                     $this->commit($batch);

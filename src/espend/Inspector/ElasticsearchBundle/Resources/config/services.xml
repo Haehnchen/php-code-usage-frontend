@@ -8,6 +8,10 @@
             <factory class="espend\Inspector\ElasticsearchBundle\Client\ClientFactory" method="create"/>
         </service>
 
+        <service id="espend_inspector_elasticsearch.elastica_client" class="Elastica\Client">
+            <factory class="espend\Inspector\ElasticsearchBundle\Client\ClientFactory" method="createElasticaClient"/>
+        </service>
+
         <service id="espend_inspector_elasticsearch.index.index_initializer" class="espend\Inspector\ElasticsearchBundle\Index\IndexInitializer">
             <argument type="service" id="espend_inspector_elasticsearch.client"/>
         </service>
@@ -15,7 +19,13 @@
         <service id="espend_inspector_elasticsearch.importer.importer" class="espend\Inspector\ElasticsearchBundle\Importer\Importer">
             <argument type="service" id="espend_inspector_elasticsearch.client"/>
             <argument>%kernel.root_dir%/../inspector</argument>
+            <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="logger"/>
+        </service>
+
+        <service class="espend\Inspector\ElasticsearchBundle\Listener\AuthorIndexListener"
+                 id="espend_inspector_elasticsearch.listener.author_index_listener">
+            <tag name="kernel.event_subscriber"/>
         </service>
     </services>
 </container>

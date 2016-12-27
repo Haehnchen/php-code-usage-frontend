@@ -4,19 +4,19 @@
   {% set start_line = 0 %}
 
   {% set context_lines %}
-    {% for line in instance.context %}
 
-      {% if start_line == 0 %}
-        {% set start_line = line.line %}
-      {% endif %}
+    {% for line in instance.context.context %}
+        {% if start_line == 0 %}
+            {% set start_line = instance.context.start_line %}
+        {% endif %}
 
       <li{% if line.is_highlight|default(false) == true %} class="active"{% endif %}>
         <span>{{ line.content }}</span>
       </li>
 
-      {% if line.is_highlight|default(false) == true %}
-        {% set line_pos = line.line %}
-      {% endif %}
+        {% if line.is_highlight|default(false) == true %}
+            {% set line_pos = line.line %}
+        {% endif %}
 
     {% endfor %}
 

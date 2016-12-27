@@ -16,7 +16,6 @@ class DynamicController extends Controller
      */
     public function indexAction(Request $request)
     {
-
         if (!$request->query->has('name') || !$request->query->has('type')) {
             throw $this->createNotFoundException();
         }
@@ -45,35 +44,19 @@ class DynamicController extends Controller
         );
 
         $name = $request->query->get('name');
-        $type = $map[$request->query->get('type')]['internal'];
-
-        $inspectorClass = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorClass')->findOneBy(array(
-            'class' => $name,
-        ));
-
-        if (!$inspectorClass) {
-            throw $this->createNotFoundException();
+        if (!isset($map[$request->query->get('type')])) {
+            throw $this->createNotFoundException('type not found');
         }
 
-        $qb = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorDynamic')->createQueryBuilder('dynamic');
-        $qb->leftJoin('dynamic.file', 'file');
-        $qb->leftJoin('file.project', 'fileProject');
+        $type = $map[$request->query->get('type')]['internal'];
 
-        $qb->addSelect('file');
-        $qb->addSelect('fileProject');
-
-        $qb->andWhere($qb->expr()->in('dynamic.class', array($inspectorClass->getId())));
-        $qb->andWhere('dynamic.type = :type');
-        $qb->setParameter('type', $type);
-
-        $qb->addOrderBy('dynamic.weight', 'DESC');
-        $qb->addOrderBy('file.name');
+        $dynamics = $this->get('espend_inspector_frontend.repository.usage_repository')->findUsage($name, $type);
 
         /** @var InspectorDynamic[] $dynamics */
-        $dynamics = $this->get('knp_paginator')->paginate($qb, $request->query->get('page', 1));
+       // $dynamics = $this->get('knp_paginator')->paginate($qb, $request->query->get('page', 1));
 
         return array(
-            'class' => $inspectorClass,
+            'class' => $this->get('espend_inspector_frontend.repository.class')->findByClass($name),
             'dynamics' => $dynamics,
             'dynamic_name' => $map[$request->query->get('type')]['view'],
         );

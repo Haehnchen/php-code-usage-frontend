@@ -77,7 +77,7 @@ class JsonClassDetailImportCommand extends ContainerAwareCommand {
 
         if (isset($json['doc_comment'])) {
             $result = trim(preg_replace('%(\r?\n(?! \* ?@))?^(/\*\*\r?\n \* | \*/| \* ?)%m', ' ', $json['doc_comment']));
-            $item['doc_comment'] = strlen($result) > 0 ? $result : null;;
+            $item['doc_comment'] = strlen($result) > 0 ? $result : null;
         }
 
         $this->getContainer()->get('espend_inspector_core.dbal_query')->executePdoUpsert('inspector_class', $item);

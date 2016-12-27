@@ -2,7 +2,6 @@
 
 namespace espend\Inspector\FrontendBundle\Controller;
 
-
 use espend\Inspector\CoreBundle\Entity\InspectorClass;
 use espend\Inspector\FrontendBundle\Form\HomeFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,8 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller {
 
     public function indexAction(Request $request) {
-
-
         if($request->query->has('q')) {
             return $this->getSearchResponse($request, $request->query->get('q'), $this->createForm(new HomeFormType(), null, array(
                 'action' => $this->generateUrl('espend_inspector_frontend_home_post'),
@@ -22,17 +19,16 @@ class DefaultController extends Controller {
             )));
         }
 
-        $form = $this->createForm(new HomeFormType(), null, array(
+        $form = $this->createForm(HomeFormType::class, null, array(
           'action' => $this->generateUrl('espend_inspector_frontend_home_post'),
           'method' => 'GET',
         ));
 
         return $this->render('espendInspectorFrontendBundle:Default:index.html.twig', array(
             'form' => $form->createView(),
-            'authors' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorAuthorClass')->getHitList()->useQueryCache(true)->useResultCache(true, 86400)->getArrayResult(),
-            'top_classes' => $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorSuper')->getHistList()->useQueryCache(true)->useResultCache(true, 86400)->getArrayResult(),
+            'authors' => $this->container->get('espend_inspector_frontend.repository.frontpage')->getTopAuthors(),
+            'top_classes' => $this->container->get('espend_inspector_frontend.repository.frontpage')->getTopClasses(),
         ));
-
     }
 
     public function indexPostAction(Request $request) {

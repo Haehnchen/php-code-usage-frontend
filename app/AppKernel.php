@@ -22,9 +22,11 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             new espend\Inspector\ElasticsearchBundle\espendInspectorElasticsearchBundle(),
+            new FOS\ElasticaBundle\FOSElasticaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();

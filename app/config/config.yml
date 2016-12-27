@@ -84,3 +84,10 @@ knp_paginator:
     page_range: 5
     template:
         pagination: MopaBootstrapBundle:Pagination:sliding.html.twig
+
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        code_usage:
+          index_name: 'code-usage'

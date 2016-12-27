@@ -16,22 +16,18 @@ class ClassController extends Controller
      */
     public function indexAction(Request $request)
     {
-
         if(!$request->query->has('name')) {
             throw $this->createNotFoundException();
         }
 
         $name = $request->query->get('name');
-        $inspectorClass = $this->getDoctrine()->getRepository('espendInspectorCoreBundle:InspectorClass')->findOneBy(array(
-            'class' => $name,
-        ));
 
-        if (!$inspectorClass) {
+        if (!$inspectorClass = $this->get('espend_inspector_frontend.repository.class')->findByClass($name)) {
             throw $this->createNotFoundException("class not found");
         }
 
-        return array(
+        return [
             'class' => $inspectorClass,
-        );
+        ];
     }
 }

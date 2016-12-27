@@ -11,3 +11,15 @@ services:
         arguments: ['@router']
         tags:
            - { name: twig.extension }
+
+    espend_inspector_frontend.repository.frontpage:
+        class: espend\Inspector\FrontendBundle\Repository\FrontpageRepository
+        arguments: ['@fos_elastica.index.code_usage']
+
+    espend_inspector_frontend.repository.class:
+        class: espend\Inspector\FrontendBundle\Repository\ClassRepository
+        arguments: ['@fos_elastica.index.code_usage']
+
+    espend_inspector_frontend.repository.usage_repository:
+        class: espend\Inspector\FrontendBundle\Repository\UsageRepository
+        arguments: ['@fos_elastica.index.code_usage']

@@ -4,6 +4,7 @@ namespace espend\Inspector\CoreBundle\Entity;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityRepository;
+use espend\Inspector\CoreBundle\espendInspectorCoreEnum;
 
 /**
  * InspectorSuperRepository
@@ -50,7 +51,7 @@ class InspectorSuperRepository extends EntityRepository
 
         $qb->orderBy('total', 'DESC');
         $qb->setMaxResults($limit);
-        $qb->andWhere($qb->expr()->notIn('child.class', array('Traversable', 'IteratorAggregate', 'Exception', 'Countable', 'Iterator', 'RuntimeException')));
+        $qb->andWhere($qb->expr()->notIn('child.class', espendInspectorCoreEnum::CORE_CLASS_REDUCE));
 
         return $qb->getQuery();
     }

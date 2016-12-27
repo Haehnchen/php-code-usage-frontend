@@ -1,35 +1,35 @@
 espend_inspector_frontend_home:
-    pattern:  /
+    path:  /
     methods: GET
     defaults: { _controller: espendInspectorFrontendBundle:Default:index }
 
 espend_inspector_frontend_home_post:
-    pattern:  /
+    path:  /
     methods: POST
     defaults: { _controller: espendInspectorFrontendBundle:Default:indexPost }
 
 espend_inspector_frontend_sitemap:
-    pattern:  /sitemap.xml
+    path:  /sitemap.xml
     defaults: { _controller: espendInspectorFrontendBundle:Default:sitemap }
 
 espend_inspector_frontend_class:
-    pattern:  /class
+    path:  /class
     defaults: { _controller: espendInspectorFrontendBundle:Class:index }
 
 espend_inspector_frontend_method:
-    pattern:  /method
+    path:  /method
     defaults: { _controller: espendInspectorFrontendBundle:Method:index }
 
 espend_inspector_frontend_instance:
-    pattern:  /instance
+    path:  /instance
     defaults: { _controller: espendInspectorFrontendBundle:Instance:index }
 
 espend_inspector_frontend_super:
-    pattern:  /instance
+    path:  /instance
     defaults: { _controller: espendInspectorFrontendBundle:Super:index }
 
 espend_inspector_frontend_view:
-    pattern:  /v/{view}
+    path:  /v/{view}
     requirements:
         view:  .*
     defaults: { _controller: espendInspectorFrontendBundle:Default:view }

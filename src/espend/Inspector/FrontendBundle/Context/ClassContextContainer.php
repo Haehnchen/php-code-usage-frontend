@@ -4,10 +4,13 @@ namespace espend\Inspector\FrontendBundle\Context;
 
 use Doctrine\ORM\EntityManager;
 use espend\Inspector\CoreBundle\Entity\InspectorClass;
+use espend\Inspector\FrontendBundle\Model\ClassAggregationResult;
+use espend\Inspector\FrontendBundle\Repository\ClassRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Exception\RuntimeException;
 
-class ClassContextContainer {
+class ClassContextContainer
+{
 
     /**
      * @var \Symfony\Component\HttpFoundation\RequestStack
@@ -21,15 +24,28 @@ class ClassContextContainer {
 
     private $cache = array();
 
-    public function __construct(RequestStack $stack, EntityManager $em) {
+    /**
+     * @var ClassRepository
+     */
+    private $classRepository;
+
+    /**
+     * @var ClassAggregationResult
+     */
+    private $result;
+
+    public function __construct(RequestStack $stack, EntityManager $em, ClassRepository $classRepository)
+    {
         $this->stack = $stack;
         $this->em = $em;
+        $this->classRepository = $classRepository;
     }
 
-    public function getClassName() {
+    public function getClassName()
+    {
 
         $name = null;
-        if($this->stack->getMasterRequest()->query->has('q')) {
+        if ($this->stack->getMasterRequest()->query->has('q')) {
             $name = $this->stack->getMasterRequest()->query->get('q');
         }
 
@@ -37,14 +53,16 @@ class ClassContextContainer {
             $name = str_replace('/', '\\', $this->stack->getMasterRequest()->attributes->get('view'));
         }
 
-        if(!$name) {
+        if (!$name) {
             throw new RuntimeException('invalid context');
         }
 
         if (preg_match('#^(?:method|instance|hint|annotation|doc|use|instanceof):(.*?)$#i', $name, $result)) {
             return $result[1];
-        } else if (preg_match('#(.*):(.*)#i', $name, $result)) {
-            return $result[1];
+        } else {
+            if (preg_match('#(.*):(.*)#i', $name, $result)) {
+                return $result[1];
+            }
         }
 
         return $name;
@@ -54,60 +72,58 @@ class ClassContextContainer {
     /**
      * @return InspectorClass
      */
-    public function getClass() {
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorClass')
-            ->getClassWithProject($this->getClassName())
-            ->useQueryCache(true)->useResultCache(true, 43200)
-            ->getOneOrNullResult();
+    public function getClass()
+    {
+        if (array_key_exists(__FUNCTION__, $this->cache)) {
+            return $this->cache[__FUNCTION__];
+        }
+
+        return $this->cache[__FUNCTION__] = $this->classRepository->findByClass($this->getClassName());
     }
 
-    public function getChildrenClasses() {
+    public function getChildrenClasses()
+    {
 
     }
 
     /**
      * @return InspectorClass[]
      */
-    public function getSubClasses() {
-
-        $qb = $this->em->getRepository('espendInspectorCoreBundle:InspectorSuper')->createQueryBuilder('supers');
-        $qb->join('supers.class', 'parentClass');
-        $qb->addSelect('parentClass');
-        $qb->andWhere('supers.child = :child');
-        $qb->setParameter('child', $this->getClass()->getId());
-        $qb->groupBy('parentClass.id');
-        $qb->addOrderBy('parentClass.weight', 'DESC');
-        $qb->addOrderBy('parentClass.class');
-
-        /** @var InspectorClass[] $inspectorSupers */
-        $inspectorSupers = $qb->getQuery()->useQueryCache(true)->useResultCache(true, 43200)->getResult();
-
-        // @TODO: remove; foreign
-        $child = array();
-        foreach($inspectorSupers as $super) {
-            $child[] = $super->getClass();
+    public function getSubClasses()
+    {
+        if (isset($this->cache[__FUNCTION__])) {
+            return $this->cache[__FUNCTION__];
         }
 
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $child;
+        return $this->cache[__FUNCTION__] = $this->classRepository->findSubClasses($this->getClassName());
     }
 
-    function getSubClassesId() {
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorSuper')->getSubClassesIds($this->getClass()->getId());
+    function getClassMethods()
+    {
+        return $this->getResult()->getMethods();
     }
 
-    function getClassMethods() {
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassMethods($this->getSubClassesId());
+    function usage(string $type)
+    {
+        return $this->getResult()->getTypeCount($type);
     }
 
-    function getInstanceCount() {
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorInstance')->getClassCount($this->getClass()->getId());
+    function getInstanceCount()
+    {
+        return $this->getResult()->getTypeCount('instanceof');
     }
 
-    function getMethodCount() {
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorMethod')->getClassCount($this->getSubClassesId());
+    function getMethodCount()
+    {
+        return $this->getResult()->getTypeCount('method');
     }
 
-    function getDynamicCount() {
-        return array_key_exists(__FUNCTION__, $this->cache) != null ? $this->cache[__FUNCTION__] : $this->cache[__FUNCTION__] = $this->em->getRepository('espendInspectorCoreBundle:InspectorDynamic')->getClassCounts($this->getClass()->getId());
+    private function getResult() : ClassAggregationResult
+    {
+        if ($this->result) {
+            return $this->result;
+        }
+
+        return $this->result = $this->classRepository->findClassUsages($this->getClassName());
     }
-} 
+}

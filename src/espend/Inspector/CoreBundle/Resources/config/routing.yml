@@ -1,3 +1,0 @@
-espend_inspector_core_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: espendInspectorCoreBundle:Default:index }

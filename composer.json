@@ -26,7 +26,8 @@
         "elasticsearch/elasticsearch": "^5.0",
         "knplabs/knp-paginator-bundle": "^2.5",
         "mopa/bootstrap-bundle": "3.*@dev",
-        "twig/extensions": "^1.4"
+        "twig/extensions": "^1.4",
+        "friendsofsymfony/elastica-bundle": "^3.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

@@ -19,7 +19,7 @@
 
           <article class="panel panel-default panel-code-context">
             <div class="panel-heading">
-              <h3><a href="{{ view_path(class.class ~ ':' ~ method.method) }}">{{ method.method }}</a> <span class="text-muted">{{ method.file.name }}</span></h3>
+              <h3><a href="{{ view_path(class.class ~ ':' ~ method.name) }}">{{ method.name }}</a> <span class="text-muted">{{ method.file.name }}</span></h3>
 
               {% include 'espendInspectorFrontendBundle:Default/include:project_link.html.twig' with {'file': method.file, 'line': method.line} only %}
 
@@ -32,9 +32,11 @@
         {% endfor %}
       {% endif %}
 
+      {#
       <div class="navigation text-center">
         {{ knp_pagination_render(methods) }}
       </div>
+      #}
 
     </div>
 
